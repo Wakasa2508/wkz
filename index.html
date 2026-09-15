@@ -1,0 +1,4318 @@
+<!DOCTYPE html>  <html lang="pt-BR">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  
+<title>WKZ</title>  <style>  
+*{  
+    margin:0;  
+    padding:0;  
+    box-sizing:border-box;  
+    font-family:Arial,Helvetica,sans-serif;  
+}  
+  
+body{  
+    background:#08090d;  
+    color:#fff;  
+    min-height:100vh;  
+    transition:background .5s ease,color .5s ease;  
+}  
+  
+header{  
+    height:65px;  
+    background:#101117;  
+    border-bottom:1px solid #292c35;  
+    display:flex;  
+    align-items:center;  
+    justify-content:space-between;  
+    padding:0 18px;  
+    position:sticky;  
+    top:0;  
+    z-index:1000;  
+}  
+  
+.logo{  
+    font-size:27px;  
+    font-weight:900;  
+    letter-spacing:2px;  
+}  
+  
+.logo span,  
+.wkzTitle span{  
+    color:#ff3030;  
+}  
+  
+.topRight{  
+    display:flex;  
+    align-items:center;  
+    gap:8px;  
+}  
+  
+.homeBtn,  
+.shopBtn,  
+.arcadeBtn,  
+.closeBtn{  
+    background:#1b1e27;  
+    border:1px solid #30333d;  
+    color:white;  
+    border-radius:9px;  
+    cursor:pointer;  
+    transition:.2s;  
+}  
+  
+.homeBtn,  
+.shopBtn,  
+.arcadeBtn{  
+    padding:10px 13px;  
+}  
+  
+.homeBtn:hover,  
+.shopBtn:hover,  
+.arcadeBtn:hover,  
+.closeBtn:hover{  
+    background:#282c35;  
+}  
+  
+.coinMini{  
+    background:#15171e;  
+    border:1px solid #30333d;  
+    padding:9px 12px;  
+    border-radius:9px;  
+    color:#ffd84d;  
+    font-weight:bold;  
+}  
+  
+.home{  
+    max-width:1000px;  
+    margin:auto;  
+    padding:70px 20px;  
+    text-align:center;  
+}  
+  
+.wkzTitle{  
+    font-size:70px;  
+    font-weight:900;  
+    letter-spacing:4px;  
+}  
+  
+.keyHint{  
+    margin-top:12px;  
+    color:#777;  
+    font-size:13px;  
+    line-height:1.5;  
+}  
+  
+.keyHint strong{  
+    color:#ff3030;  
+    font-size:14px;  
+    background:#15171e;  
+    border:1px solid #30333d;  
+    padding:3px 8px;  
+    border-radius:6px;  
+}  
+  
+.subtitle{  
+    margin-top:10px;  
+    color:#888;  
+    font-size:15px;  
+}  
+  
+.xpPanel,  
+.coinPanel{  
+    max-width:650px;  
+    margin-left:auto;  
+    margin-right:auto;  
+    background:#13151c;  
+    border:1px solid #292c35;  
+    border-radius:16px;  
+}  
+  
+.xpPanel{  
+    margin-top:28px;  
+    padding:18px;  
+    text-align:left;  
+}  
+  
+.xpTop{  
+    display:flex;  
+    justify-content:space-between;  
+    align-items:center;  
+    margin-bottom:10px;  
+}  
+  
+.xpLevel{  
+    font-size:17px;  
+    font-weight:bold;  
+}  
+  
+.xpNumber{  
+    color:#aaa;  
+    font-size:13px;  
+}  
+  
+.xpBar{  
+    width:100%;  
+    height:12px;  
+    background:#090a0e;  
+    border:1px solid #292c35;  
+    border-radius:20px;  
+    overflow:hidden;  
+}  
+  
+.xpProgress{  
+    width:0%;  
+    height:100%;  
+    background:#ff3030;  
+    border-radius:20px;  
+    transition:width .4s ease;  
+}  
+  
+.xpInfo{  
+    display:flex;  
+    justify-content:space-between;  
+    margin-top:8px;  
+    color:#666;  
+    font-size:11px;  
+}  
+  
+.coinPanel{  
+    margin-top:15px;  
+    padding:17px;  
+    display:flex;  
+    align-items:center;  
+    justify-content:space-between;  
+    text-align:left;  
+}  
+  
+.coinBig{  
+    display:flex;  
+    align-items:center;  
+    gap:10px;  
+}  
+  
+.coinIcon{  
+    font-size:34px;  
+}  
+  
+.coinLabel{  
+    color:#777;  
+    font-size:12px;  
+}  
+  
+.coinAmount{  
+    color:#ffd84d;  
+    font-size:23px;  
+    font-weight:900;  
+}  
+  
+.coinHint{  
+    color:#666;  
+    font-size:11px;  
+    text-align:right;  
+}  
+  
+.searchBox{  
+    max-width:650px;  
+    height:55px;  
+    margin:30px auto;  
+    background:#15171e;  
+    border:1px solid #30333d;  
+    border-radius:30px;  
+    display:flex;  
+    align-items:center;  
+    padding:5px;  
+}  
+  
+.searchBox:focus-within{  
+    border-color:#ff3030;  
+    box-shadow:0 0 0 2px rgba(255,48,48,.08);  
+}  
+  
+.searchBox input{  
+    flex:1;  
+    height:100%;  
+    background:none;  
+    border:none;  
+    outline:none;  
+    color:white;  
+    font-size:16px;  
+    padding:0 20px;  
+}  
+  
+.searchBox input::placeholder{  
+    color:#666;  
+}  
+  
+.searchBox button{  
+    width:45px;  
+    height:45px;  
+    border:none;  
+    border-radius:50%;  
+    background:#ff3030;  
+    color:white;  
+    font-size:20px;  
+    cursor:pointer;  
+}  
+  
+.searchHint{  
+    color:#555;  
+    font-size:12px;  
+    margin-top:-18px;  
+    margin-bottom:25px;  
+}  
+  
+.sectionTitle{  
+    margin:40px 0 18px;  
+    text-align:left;  
+    font-size:20px;  
+}  
+  
+.sites{  
+    display:grid;  
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));  
+    gap:15px;  
+}  
+  
+.siteCard,  
+.googleResult{  
+    background:#13151c;  
+    border:1px solid #292c35;  
+    border-radius:14px;  
+    padding:22px;  
+    text-align:left;  
+    cursor:pointer;  
+    transition:.2s;  
+}  
+  
+.siteCard:hover,  
+.googleResult:hover{  
+    transform:translateY(-3px);  
+    border-color:#ff3030;  
+    background:#181a22;  
+}  
+  
+.siteIcon{  
+    font-size:35px;  
+    margin-bottom:12px;  
+}  
+  
+.siteCard h3,  
+.googleResult h3{  
+    font-size:17px;  
+    margin-bottom:6px;  
+}  
+  
+.siteCard p,  
+.googleResult p{  
+    color:#777;  
+    font-size:13px;  
+}  
+  
+#results{  
+    margin-top:20px;  
+}  
+  
+.searchTitle{  
+    text-align:left;  
+    color:#aaa;  
+    font-size:14px;  
+    margin-bottom:12px;  
+}  
+  
+.googleResultIcon{  
+    font-size:28px;  
+    margin-bottom:8px;  
+}  
+  
+.browser{  
+    display:none;  
+    width:100%;  
+    height:calc(100vh - 65px);  
+    position:fixed;  
+    left:0;  
+    top:65px;  
+    background:#08090d;  
+    z-index:500;  
+}  
+  
+.browserTop{  
+    height:55px;  
+    background:#11131a;  
+    border-bottom:1px solid #292c35;  
+    display:flex;  
+    align-items:center;  
+    gap:8px;  
+    padding:7px;  
+}  
+  
+.browserTop button{  
+    height:40px;  
+    min-width:40px;  
+    background:#1c1f28;  
+    border:1px solid #30333d;  
+    color:white;  
+    border-radius:8px;  
+    cursor:pointer;  
+}  
+  
+.address{  
+    flex:1;  
+    height:40px;  
+    background:#090a0e;  
+    border:1px solid #30333d;  
+    border-radius:20px;  
+    color:#aaa;  
+    display:flex;  
+    align-items:center;  
+    padding:0 16px;  
+    overflow:hidden;  
+    white-space:nowrap;  
+}  
+  
+iframe{  
+    width:100%;  
+    height:calc(100% - 55px);  
+    border:none;  
+    background:white;  
+}  
+  
+.loading{  
+    position:absolute;  
+    left:50%;  
+    top:50%;  
+    transform:translate(-50%,-50%);  
+    color:#777;  
+    z-index:5;  
+}  
+  
+.warning,  
+.levelUp{  
+    display:none;  
+    position:fixed;  
+    left:50%;  
+    top:50%;  
+    transform:translate(-50%,-50%);  
+    width:90%;  
+    max-width:430px;  
+    background:#15171e;  
+    border:1px solid #343741;  
+    border-radius:15px;  
+    padding:25px;  
+    z-index:2000;  
+    text-align:center;  
+    box-shadow:0 10px 40px #000;  
+}  
+  
+.warning h2,  
+.levelUp h2{  
+    margin-bottom:12px;  
+}  
+  
+.warning p,  
+.levelUp p{  
+    color:#aaa;  
+    line-height:1.5;  
+    font-size:14px;  
+}  
+  
+.warning button,  
+.levelUp button{  
+    margin-top:20px;  
+    background:#ff3030;  
+    color:white;  
+    border:none;  
+    padding:11px 20px;  
+    border-radius:8px;  
+    cursor:pointer;  
+}  
+  
+.xpNotification,  
+.coinNotification{  
+    position:fixed;  
+    z-index:9000;  
+    background:#15171e;  
+    border-radius:12px;  
+    padding:14px 18px;  
+    box-shadow:0 10px 35px #000;  
+    display:none;  
+}  
+  
+.xpNotification{  
+    top:85px;  
+    right:20px;  
+    border:1px solid #ff3030;  
+}  
+  
+.xpNotification strong{  
+    color:#ff3030;  
+}  
+  
+.coinNotification{  
+    left:50%;  
+    top:145px;  
+    transform:translateX(-50%);  
+    border:1px solid #ffd84d;  
+    color:#ffd84d;  
+    font-weight:bold;  
+}  
+  
+.levelUp{  
+    max-width:400px;  
+    border-color:#ff3030;  
+    z-index:6000;  
+}  
+  
+.levelUpIcon{  
+    font-size:55px;  
+    margin-bottom:10px;  
+}  
+  
+.modalOverlay,  
+.arcadeModal{  
+    display:none;  
+    position:fixed;  
+    inset:0;  
+    background:rgba(0,0,0,.85);  
+    z-index:10000;  
+    overflow-y:auto;  
+    padding:20px;  
+}  
+  
+.shopModal,  
+.arcadeBox{  
+    width:100%;  
+    max-width:850px;  
+    margin:auto;  
+    background:#101218;  
+    border:1px solid #30333d;  
+    border-radius:20px;  
+    padding:22px;  
+    box-shadow:0 20px 80px #000;  
+}  
+  
+.arcadeBox{  
+    max-width:700px;  
+}  
+  
+.modalTop,  
+.arcadeHeader{  
+    display:flex;  
+    justify-content:space-between;  
+    align-items:center;  
+    margin-bottom:20px;  
+}  
+  
+.modalTop h2,  
+.arcadeHeader h2{  
+    font-size:25px;  
+}  
+  
+.closeBtn{  
+    width:40px;  
+    height:40px;  
+    font-size:20px;  
+}  
+  
+.shopBalance{  
+    background:#15171e;  
+    border:1px solid #30333d;  
+    padding:12px 15px;  
+    border-radius:12px;  
+    color:#ffd84d;  
+    font-weight:bold;  
+    margin-bottom:18px;  
+}  
+  
+.shopGrid{  
+    display:grid;  
+    grid-template-columns:repeat(auto-fit,minmax(210px,1fr));  
+    gap:15px;  
+}  
+  
+.shopItem{  
+    background:#15171e;  
+    border:1px solid #292c35;  
+    border-radius:16px;  
+    padding:18px;  
+}  
+  
+.petVisual{  
+    height:85px;  
+    display:flex;  
+    align-items:center;  
+    justify-content:center;  
+    font-size:55px;  
+}  
+  
+.shopItem h3{  
+    text-align:center;  
+    margin-bottom:7px;  
+}  
+  
+.shopItem p{  
+    color:#777;  
+    font-size:12px;  
+    text-align:center;  
+    min-height:35px;  
+    line-height:1.4;  
+}  
+  
+.petBonus{  
+    color:#aaa;  
+    font-size:12px;  
+    text-align:center;  
+    margin:10px 0;  
+}  
+  
+.buyBtn,  
+.startGame{  
+    width:100%;  
+    padding:12px;  
+    border:none;  
+    border-radius:9px;  
+    background:#ff3030;  
+    color:white;  
+    font-weight:bold;  
+    cursor:pointer;  
+}  
+  
+.buyBtn.owned,  
+.buyBtn.equipped{  
+    background:#292d38;  
+    color:#aaa;  
+}  
+  
+.activePet{  
+    margin-bottom:18px;  
+    background:#15171e;  
+    border:1px solid #292c35;  
+    border-radius:15px;  
+    padding:15px;  
+    display:flex;  
+    align-items:center;  
+    gap:15px;  
+}  
+  
+.activePetIcon{  
+    font-size:42px;  
+}  
+  
+.activePetInfo p{  
+    color:#777;  
+    font-size:12px;  
+    margin-top:5px;  
+}  
+  
+/* =========================  
+   ARCADE  
+========================= */  
+  
+.gameSelector{  
+    display:grid;  
+    grid-template-columns:repeat(3,1fr);  
+    gap:10px;  
+    margin-bottom:18px;  
+}  
+  
+.gameSelectBtn{  
+    padding:12px 5px;  
+    border-radius:10px;  
+    border:1px solid #30333d;  
+    background:#181b23;  
+    color:#aaa;  
+    cursor:pointer;  
+    font-weight:bold;  
+}  
+  
+.gameSelectBtn.active{  
+    background:#ff3030;  
+    border-color:#ff3030;  
+    color:white;  
+}  
+  
+.gameInfo{  
+    display:flex;  
+    justify-content:space-between;  
+    margin-bottom:12px;  
+    color:#aaa;  
+    font-size:13px;  
+    gap:8px;  
+}  
+  
+.gameArea{  
+    position:relative;  
+    width:100%;  
+    height:400px;  
+    background:#08090d;  
+    border:1px solid #292c35;  
+    border-radius:15px;  
+    overflow:hidden;  
+    touch-action:none;  
+}  
+  
+.target{  
+    display:none;  
+    position:absolute;  
+    width:48px;  
+    height:48px;  
+    border-radius:50%;  
+    background:#ff3030;  
+    border:4px solid #fff;  
+    box-shadow:0 0 20px #ff3030;  
+    cursor:pointer;  
+    animation:targetPulse .5s infinite alternate;  
+}  
+  
+@keyframes targetPulse{  
+    from{transform:scale(.9)}  
+    to{transform:scale(1.08)}  
+}  
+  
+.minefield{  
+    display:none;  
+    width:100%;  
+    height:100%;  
+    padding:15px;  
+    grid-template-columns:repeat(5,1fr);  
+    grid-template-rows:repeat(5,1fr);  
+    gap:7px;  
+}  
+  
+.mineCell{  
+    border:1px solid #30333d;  
+    background:#171a22;  
+    border-radius:8px;  
+    color:white;  
+    font-size:24px;  
+    font-weight:bold;  
+    cursor:pointer;  
+    transition:.15s;  
+    display:flex;  
+    align-items:center;  
+    justify-content:center;  
+}  
+  
+.mineCell:hover{  
+    background:#222630;  
+}  
+  
+.mineCell.revealed{  
+    cursor:default;  
+}  
+  
+.mineCell.coin{  
+    background:#25251b;  
+    border-color:#ffd84d;  
+}  
+  
+.mineCell.bomb{  
+    background:#2a1515;  
+    border-color:#ff3030;  
+}  
+  
+/* =========================  
+   COFRE  
+========================= */  
+  
+.vaultGame{  
+    display:none;  
+    width:100%;  
+    min-height:400px;  
+    padding:15px;  
+    overflow:auto;  
+}  
+  
+.vault{  
+    max-width:570px;  
+    margin:auto;  
+    background:linear-gradient(145deg,#181b22,#0d0f14);  
+    border:2px solid #3a3e49;  
+    border-radius:20px;  
+    padding:20px;  
+    box-shadow:  
+        inset 0 0 30px rgba(0,0,0,.7),  
+        0 0 30px rgba(255,48,48,.08);  
+}  
+  
+.vault.locked{  
+    animation:vaultPulse 2s infinite;  
+}  
+  
+.vault.opened{  
+    border-color:#ffd84d;  
+    box-shadow:  
+        0 0 35px rgba(255,216,77,.4),  
+        inset 0 0 30px rgba(255,216,77,.08);  
+}  
+  
+@keyframes vaultPulse{  
+    0%,100%{box-shadow:inset 0 0 30px #000,0 0 10px rgba(255,48,48,.05)}  
+    50%{box-shadow:inset 0 0 30px #000,0 0 25px rgba(255,48,48,.2)}  
+}  
+  
+.vaultTitle{  
+    text-align:center;  
+    font-size:22px;  
+    font-weight:900;  
+    color:#ddd;  
+}  
+  
+.vaultSub{  
+    text-align:center;  
+    color:#666;  
+    font-size:11px;  
+    margin:5px 0 15px;  
+}  
+  
+.vaultDisplay{  
+    background:#050609;  
+    border:2px solid #343844;  
+    border-radius:12px;  
+    padding:15px;  
+    text-align:center;  
+    margin-bottom:15px;  
+}  
+  
+.vaultCode{  
+    color:#ff3030;  
+    font-size:31px;  
+    font-weight:900;  
+    letter-spacing:10px;  
+    text-shadow:0 0 12px rgba(255,48,48,.7);  
+    min-height:38px;  
+}  
+  
+.vaultCode.success{  
+    color:#ffd84d;  
+    text-shadow:0 0 15px rgba(255,216,77,.8);  
+}  
+  
+.vaultStats{  
+    display:grid;  
+    grid-template-columns:repeat(3,1fr);  
+    gap:8px;  
+    margin-bottom:15px;  
+}  
+  
+.vaultStat{  
+    background:#15171e;  
+    border:1px solid #292c35;  
+    border-radius:9px;  
+    padding:9px 5px;  
+    text-align:center;  
+}  
+  
+.vaultStat small{  
+    display:block;  
+    color:#666;  
+    font-size:9px;  
+    margin-bottom:3px;  
+}  
+  
+.vaultStat strong{  
+    color:#fff;  
+    font-size:13px;  
+}  
+  
+.vaultReward{  
+    color:#ffd84d!important;  
+}  
+  
+.vaultTips{  
+    background:#0b0d12;  
+    border:1px solid #292c35;  
+    border-radius:12px;  
+    padding:12px;  
+    margin-bottom:15px;  
+}  
+  
+.vaultTipsTitle{  
+    color:#aaa;  
+    font-size:12px;  
+    font-weight:bold;  
+    margin-bottom:8px;  
+}  
+  
+.tip{  
+    background:#15171e;  
+    border-left:3px solid #555;  
+    border-radius:5px;  
+    padding:8px;  
+    margin-top:6px;  
+    color:#aaa;  
+    font-size:11px;  
+}  
+  
+.tip.unlocked{  
+    border-left-color:#ff3030;  
+    color:#ddd;  
+}  
+  
+.tip.locked{  
+    color:#444;  
+}  
+  
+.vaultKeyboard{  
+    display:grid;  
+    grid-template-columns:repeat(3,1fr);  
+    gap:7px;  
+}  
+  
+.vaultKey{  
+    height:45px;  
+    background:#1a1d25;  
+    border:1px solid #343844;  
+    border-radius:8px;  
+    color:white;  
+    font-size:17px;  
+    font-weight:bold;  
+    cursor:pointer;  
+    transition:.12s;  
+}  
+  
+.vaultKey:hover{  
+    background:#292d38;  
+    border-color:#ff3030;  
+}  
+  
+.vaultKey:active{  
+    transform:scale(.94);  
+}  
+  
+.vaultKey.delete{  
+    color:#ff7777;  
+}  
+  
+.vaultKey.confirm{  
+    background:#ff3030;  
+    border-color:#ff3030;  
+}  
+  
+.vaultMessage{  
+    text-align:center;  
+    min-height:35px;  
+    margin-top:12px;  
+    color:#777;  
+    font-size:12px;  
+    line-height:1.4;  
+}  
+  
+.vaultWin{  
+    display:none;  
+    text-align:center;  
+    padding:18px;  
+    margin-top:12px;  
+    background:linear-gradient(145deg,#26220f,#15130b);  
+    border:1px solid #ffd84d;  
+    border-radius:15px;  
+}  
+  
+.vaultWin .big{  
+    font-size:38px;  
+}  
+  
+.vaultWin h2{  
+    color:#ffd84d;  
+    margin:6px 0;  
+}  
+  
+.vaultWin p{  
+    color:#aaa;  
+    font-size:13px;  
+}  
+  
+.vaultShake{  
+    animation:vaultShake .4s;  
+}  
+  
+@keyframes vaultShake{  
+    0%,100%{transform:translateX(0)}  
+    20%{transform:translateX(-10px)}  
+    40%{transform:translateX(10px)}  
+    60%{transform:translateX(-7px)}  
+    80%{transform:translateX(7px)}  
+}  
+  
+.coinsBurst{  
+    animation:coinsBurst 1s ease-out;  
+}  
+  
+@keyframes coinsBurst{  
+    0%{transform:scale(.8);opacity:.3}  
+    50%{transform:scale(1.15);opacity:1}  
+    100%{transform:scale(1);opacity:1}  
+}  
+  
+/* =========================  
+   TEMAS  
+========================= */  
+  
+body.theme-blue .logo span,  
+body.theme-blue .wkzTitle span{color:#308cff}  
+  
+body.theme-purple .logo span,  
+body.theme-purple .wkzTitle span{color:#a83dff}  
+  
+body.theme-green .logo span,  
+body.theme-green .wkzTitle span{color:#27e36f}  
+  
+body.theme-gold .logo span,  
+body.theme-gold .wkzTitle span{color:#ffd43d}  
+  
+body.theme-pink .logo span,  
+body.theme-pink .wkzTitle span{color:#ff3db8}  
+  
+body.theme-cyan .logo span,  
+body.theme-cyan .wkzTitle span{color:#22e8ff}  
+  
+.petFollower{  
+    position:fixed;  
+    right:18px;  
+    bottom:18px;  
+    z-index:7000;  
+    font-size:42px;  
+    pointer-events:none;  
+    filter:drop-shadow(0 5px 8px #000);  
+    animation:petFloat 2s ease-in-out infinite;  
+}  
+  
+@keyframes petFloat{  
+    0%,100%{transform:translateY(0)}  
+    50%{transform:translateY(-8px)}  
+}  
+  
+body.cursor-default{cursor:default}  
+body.cursor-crosshair{cursor:crosshair}  
+body.cursor-pointer{cursor:pointer}  
+body.cursor-wait{cursor:wait}  
+body.cursor-cell{cursor:cell}  
+body.cursor-grab{cursor:grab}  
+  
+
+/* =========================
+   ROLETA DE PETS
+========================= */
+
+.rouletteModal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.88);
+    z-index:12000;
+    overflow-y:auto;
+    padding:20px;
+}
+.rouletteBox{
+    width:100%;
+    max-width:900px;
+    margin:auto;
+    background:#101218;
+    border:1px solid #30333d;
+    border-radius:22px;
+    padding:22px;
+    box-shadow:0 20px 90px #000;
+}
+.rouletteHeader{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    margin-bottom:18px;
+}
+.rouletteHeader h2{font-size:26px}
+.rouletteBalance{
+    background:#15171e;
+    border:1px solid #30333d;
+    border-radius:12px;
+    padding:12px;
+    color:#ffd84d;
+    font-weight:900;
+    text-align:center;
+    margin-bottom:16px;
+}
+.rouletteTrack{
+    position:relative;
+    width:100%;
+    height:150px;
+    overflow:hidden;
+    background:#08090d;
+    border:2px solid #292c35;
+    border-radius:18px;
+    box-shadow:inset 0 0 35px #000;
+    margin-bottom:18px;
+}
+.roulettePointer{
+    position:absolute;
+    z-index:4;
+    left:50%;
+    top:-2px;
+    transform:translateX(-50%);
+    width:0;height:0;
+    border-left:13px solid transparent;
+    border-right:13px solid transparent;
+    border-top:22px solid #ff3030;
+    filter:drop-shadow(0 0 8px #ff3030);
+}
+.roulettePointer:after{
+    content:"";
+    position:absolute;
+    width:4px;height:126px;
+    left:-2px;top:-1px;
+    background:#ff3030;
+    opacity:.45;
+    box-shadow:0 0 12px #ff3030;
+}
+.rouletteStrip{
+    position:absolute;
+    left:0;top:20px;
+    height:110px;
+    display:flex;
+    align-items:stretch;
+    gap:10px;
+    will-change:transform;
+}
+.rouletteCard{
+    flex:0 0 130px;
+    height:110px;
+    background:#15171e;
+    border:1px solid #30333d;
+    border-radius:14px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    user-select:none;
+}
+.rouletteCardIcon{font-size:40px;line-height:1;margin-bottom:6px}
+.rouletteCardName{font-size:12px;font-weight:900}
+.rouletteCardRarity{font-size:10px;color:#999;margin-top:3px}
+.rouletteCard.legendary{border-color:#ffd84d;box-shadow:0 0 16px rgba(255,216,77,.2)}
+.rouletteCard.rare{border-color:#a83dff}
+.rouletteCard.uncommon{border-color:#22e8ff}
+.rouletteCard.common{border-color:#777}
+.roulettePetsGrid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    margin-bottom:16px;
+}
+.roulettePetInfo{
+    background:#15171e;
+    border:1px solid #292c35;
+    border-radius:14px;
+    padding:14px 10px;
+    text-align:center;
+}
+.roulettePetInfo .icon{font-size:38px;margin-bottom:7px}
+.roulettePetInfo h3{font-size:14px;margin-bottom:4px}
+.roulettePetInfo p{color:#888;font-size:11px;line-height:1.55}
+.roulettePetInfo .chance{color:#fff;font-weight:900;margin-bottom:4px}
+.roulettePetInfo.legendary{border-color:#ffd84d;box-shadow:0 0 16px rgba(255,216,77,.12)}
+.rouletteLast{
+    min-height:70px;
+    background:#0b0d12;
+    border:1px solid #292c35;
+    border-radius:14px;
+    padding:12px;
+    text-align:center;
+    margin-bottom:14px;
+}
+.rouletteLastTitle{color:#666;font-size:10px;font-weight:bold;margin-bottom:5px}
+.rouletteLastResult{color:#fff;font-size:16px;font-weight:900}
+.rouletteResult{
+    min-height:80px;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    background:linear-gradient(145deg,#171a22,#0b0d12);
+    border:1px solid #ff3030;
+    border-radius:15px;
+    padding:15px;
+    margin-bottom:14px;
+}
+.rouletteResult.legendary{
+    border-color:#ffd84d;
+    box-shadow:0 0 25px rgba(255,216,77,.2);
+}
+.rouletteResultIcon{font-size:38px;margin-right:10px}
+.rouletteResultText{line-height:1.45}
+.rouletteResultText strong{color:#ffd84d}
+.rouletteSpin{
+    width:100%;
+    padding:15px;
+    border:0;
+    border-radius:12px;
+    background:#ff3030;
+    color:#fff;
+    font-size:17px;
+    font-weight:900;
+    cursor:pointer;
+    transition:.15s;
+}
+.rouletteSpin:hover{filter:brightness(1.12)}
+.rouletteSpin:active{transform:scale(.98)}
+.rouletteSpin:disabled{opacity:.55;cursor:not-allowed}
+.rouletteInventory{
+    margin-top:16px;
+    background:#0b0d12;
+    border:1px solid #292c35;
+    border-radius:15px;
+    padding:14px;
+}
+.rouletteInventoryTitle{color:#aaa;font-size:13px;font-weight:900;margin-bottom:10px}
+.rouletteInventoryGrid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:8px;
+}
+.rouletteInventoryItem{
+    background:#15171e;
+    border:1px solid #292c35;
+    border-radius:10px;
+    padding:9px 5px;
+    text-align:center;
+    font-size:11px;
+}
+.rouletteInventoryItem .big{display:block;font-size:25px;margin-bottom:3px}
+.rouletteBox.rolling{animation:rouletteGlow .45s infinite}
+@keyframes rouletteGlow{
+    0%,100%{box-shadow:0 0 10px rgba(255,48,48,.1)}
+    50%{box-shadow:0 0 28px rgba(255,48,48,.3)}
+}
+@media(max-width:600px){
+    .rouletteModal{padding:8px}
+    .rouletteBox{padding:13px;border-radius:17px}
+    .rouletteHeader h2{font-size:20px}
+    .rouletteTrack{height:130px}
+    .rouletteStrip{top:10px;height:110px}
+    .rouletteCard{flex-basis:105px;height:110px}
+    .roulettePetsGrid{grid-template-columns:repeat(2,1fr)}
+    .rouletteInventoryGrid{grid-template-columns:repeat(2,1fr)}
+    .roulettePetInfo .icon{font-size:32px}
+}
+/* =========================  
+   RAINBOW  
+========================= */  
+  
+.rainbowEvent{  
+    animation:rainbowBackground 2s linear infinite!important;  
+}  
+  
+.rainbowEvent .logo,  
+.rainbowEvent .wkzTitle,  
+.rainbowEvent .sectionTitle,  
+.rainbowEvent .siteIcon,  
+.rainbowEvent h2,  
+.rainbowEvent h3,  
+.rainbowEvent strong{  
+    animation:rainbowText 1s linear infinite!important;  
+}  
+  
+.rainbowEvent .siteCard,  
+.rainbowEvent .xpPanel,  
+.rainbowEvent .coinPanel,  
+.rainbowEvent .searchBox,  
+.rainbowEvent .googleResult{  
+    animation:rainbowBorder 1.5s linear infinite!important;  
+}  
+  
+.rainbowEvent .xpProgress{  
+    animation:rainbowBar 1s linear infinite!important;  
+}  
+  
+@keyframes rainbowBackground{  
+    0%{background-color:#ff0000}  
+    16%{background-color:#ff7f00}  
+    33%{background-color:#ffff00}  
+    50%{background-color:#00ff00}  
+    66%{background-color:#00ffff}  
+    83%{background-color:#0000ff}  
+    100%{background-color:#ff00ff}  
+}  
+  
+@keyframes rainbowText{  
+    0%{color:#ff0000}  
+    16%{color:#ff7f00}  
+    33%{color:#ffff00}  
+    50%{color:#00ff00}  
+    66%{color:#00ffff}  
+    83%{color:#0000ff}  
+    100%{color:#ff00ff}  
+}  
+  
+@keyframes rainbowBorder{  
+    0%{border-color:#ff0000;box-shadow:0 0 15px #ff0000}  
+    16%{border-color:#ff7f00;box-shadow:0 0 15px #ff7f00}  
+    33%{border-color:#ffff00;box-shadow:0 0 15px #ffff00}  
+    50%{border-color:#00ff00;box-shadow:0 0 15px #00ff00}  
+    66%{border-color:#00ffff;box-shadow:0 0 15px #00ffff}  
+    83%{border-color:#0000ff;box-shadow:0 0 15px #0000ff}  
+    100%{border-color:#ff00ff;box-shadow:0 0 15px #ff00ff}  
+}  
+  
+@keyframes rainbowBar{  
+    0%{background:#ff0000}  
+    16%{background:#ff7f00}  
+    33%{background:#ffff00}  
+    50%{background:#00ff00}  
+    66%{background:#00ffff}  
+    83%{background:#0000ff}  
+    100%{background:#ff00ff}  
+}  
+  
+.rainbowNotification{  
+    position:fixed;  
+    top:85px;  
+    left:50%;  
+    transform:translateX(-50%);  
+    z-index:9000;  
+    padding:15px 25px;  
+    border-radius:14px;  
+    background:#11131a;  
+    border:2px solid #fff;  
+    text-align:center;  
+    font-weight:bold;  
+    font-size:16px;  
+    box-shadow:0 0 20px #fff,0 10px 40px #000;  
+    animation:rainbowNotification 1s linear infinite;  
+}  
+  
+@keyframes rainbowNotification{  
+    0%{border-color:#ff0000}  
+    16%{border-color:#ff7f00}  
+    33%{border-color:#ffff00}  
+    50%{border-color:#00ff00}  
+    66%{border-color:#00ffff}  
+    83%{border-color:#0000ff}  
+    100%{border-color:#ff00ff}  
+}  
+  
+@media(max-width:600px){  
+  
+    .wkzTitle{  
+        font-size:52px;  
+    }  
+  
+    .home{  
+        padding-top:50px;  
+    }  
+  
+    .sites{  
+        grid-template-columns:repeat(2,1fr);  
+    }  
+  
+    .siteCard{  
+        padding:16px;  
+    }  
+  
+    .siteIcon{  
+        font-size:28px;  
+    }  
+  
+    .coinHint{  
+        display:none;  
+    }  
+  
+    .topRight{  
+        gap:4px;  
+    }  
+  
+    .homeBtn,  
+    .shopBtn,  
+    .arcadeBtn{  
+        padding:9px 8px;  
+        font-size:12px;  
+    }  
+  
+    .coinMini{  
+        padding:8px;  
+        font-size:12px;  
+    }  
+  
+    .gameArea{  
+        height:330px;  
+    }  
+  
+    .minefield{  
+        padding:10px;  
+        gap:5px;  
+    }  
+  
+    .mineCell{  
+        font-size:19px;  
+        border-radius:6px;  
+    }  
+  
+    .gameInfo{  
+        font-size:11px;  
+    }  
+  
+    .gameSelector{  
+        grid-template-columns:1fr;  
+    }  
+  
+    .vault{  
+        padding:13px;  
+    }  
+  
+    .vaultCode{  
+        font-size:25px;  
+        letter-spacing:6px;  
+    }  
+  
+    .vaultKey{  
+        height:43px;  
+    }  
+  
+    .vaultGame{  
+        padding:7px;  
+    }  
+}  
+  
+@media(prefers-reduced-motion:reduce){  
+    *{  
+        animation-duration:.01ms!important;  
+        transition-duration:.01ms!important;  
+    }  
+}  
+</style>  </head>  <body>  <header>  
+    <div class="logo">W<span>KZ</span></div>  <div class="topRight">  
+    <div class="coinMini" id="coinMini">🪙 0</div>  
+
+    <button class="arcadeBtn" onclick="openArcade()">  
+        🎮 Arcade  
+    </button>
+
+    <button class="arcadeBtn" onclick="openRoulette()">
+        🎰 Roleta
+    </button>  
+
+    <button class="shopBtn" onclick="openShop()">  
+        🛒 Loja  
+    </button>  
+
+    <button class="homeBtn" onclick="goHome()">  
+        🏠  
+    </button>  
+</div>
+
+</header>  <div class="home" id="home">  <div class="wkzTitle">W<span>KZ</span></div>  
+
+<div class="keyHint">  
+    Precisa esconder a página?  
+    Aperte <strong>+</strong> para abrir o Google.  
+    Aperte <strong>+</strong> novamente para voltar ao WKZ.  
+</div>  
+
+<div class="subtitle">  
+    Sua central de sites dentro do navegador  
+</div>  
+
+<div class="xpPanel">  
+
+    <div class="xpTop">  
+        <div class="xpLevel" id="xpLevel">🧑 Novato</div>  
+        <div class="xpNumber" id="xpNumber">0 XP</div>  
+    </div>  
+
+    <div class="xpBar">  
+        <div class="xpProgress" id="xpProgress"></div>  
+    </div>  
+
+    <div class="xpInfo">  
+        <span id="xpCurrent">0 XP</span>  
+        <span id="xpNext">100 XP</span>  
+    </div>  
+
+</div>  
+
+<div class="coinPanel">  
+
+    <div class="coinBig">  
+
+        <div class="coinIcon">🪙</div>  
+
+        <div>  
+            <div class="coinLabel">MOEDAS WKZ</div>  
+            <div class="coinAmount" id="coinAmount">0</div>  
+        </div>  
+
+    </div>  
+
+    <div class="coinHint">  
+        Jogue, explore<br>  
+        e economize para a loja.  
+    </div>  
+
+</div>  
+
+<div class="searchBox">  
+
+    <input  
+        id="search"  
+        type="text"  
+        autocomplete="off"  
+        placeholder="Pesquisar qualquer coisa..."  
+    >  
+
+    <button onclick="searchSites()">🔍</button>  
+
+</div>  
+
+<div class="searchHint">  
+    Pesquise sites do WKZ ou qualquer coisa na internet  
+</div>  
+
+<div id="results"></div>  
+
+<h2 class="sectionTitle">🌐 Sites</h2>  
+
+<div class="sites">  
+
+    <div class="siteCard"  
+         onclick="openSite('BlogBott Login','https://login-live.blogbott.com/')">  
+        <div class="siteIcon">🤖</div>  
+        <h3>BlogBott Login</h3>  
+        <p>Abrir dentro do WKZ</p>  
+    </div>  
+
+    <div class="siteCard"  
+         onclick="openSite('Astrocade','https://www.astrocade.com')">  
+        <div class="siteIcon">🚀</div>  
+        <h3>Astrocade</h3>  
+        <p>Abrir dentro do WKZ</p>  
+    </div>  
+
+    <div class="siteCard"  
+         onclick="openSite('Emu Games','https://www.emugames.com/')">  
+        <div class="siteIcon">🎮</div>  
+        <h3>Emu Games</h3>  
+        <p>Abrir dentro do WKZ</p>  
+    </div>  
+
+    <div class="siteCard"  
+         onclick="openSite('Kirka','https://kirka.io/')">  
+        <div class="siteIcon">🔫</div>  
+        <h3>Kirka</h3>  
+        <p>Abrir dentro do WKZ</p>  
+    </div>  
+
+    <div class="siteCard"  
+         onclick="openSite('CalcSolver','https://www.calc-solver.com/')">  
+        <div class="siteIcon">🧮</div>  
+        <h3>CalcSolver</h3>  
+        <p>Abrir dentro do WKZ</p>  
+    </div>  
+
+    <div class="siteCard"  
+         onclick="openSite('Bloxd.io','https://bloxd.io/')">  
+        <div class="siteIcon">🧱</div>  
+        <h3>Bloxd.io</h3>  
+        <p>Abrir dentro do WKZ</p>  
+    </div>  
+
+    <div class="siteCard"  
+         onclick="openSite('Uncensored AI','https://uncensored.ai/chat')">  
+        <div class="siteIcon">🧠</div>  
+        <h3>Uncensored AI</h3>  
+        <p>Abrir dentro do WKZ</p>  
+    </div>  
+
+    <div class="siteCard"  
+         onclick="openSite('Kahoot!','https://kahoot.si/')">  
+        <div class="siteIcon">🏆</div>  
+        <h3>Kahoot!</h3>  
+        <p>Jogar dentro do WKZ</p>  
+    </div>  
+
+</div>
+
+</div>  <div class="browser" id="browser">  <div class="browserTop">  
+
+    <button onclick="goHome()">🏠</button>  
+    <button onclick="goBack()">←</button>  
+    <button onclick="goForward()">→</button>  
+    <button onclick="reloadFrame()">🔄</button>  
+
+    <div class="address" id="address">WKZ</div>  
+
+    <button onclick="fullScreen()">⛶</button>  
+
+</div>  
+
+<div class="loading" id="loading">  
+    Carregando...  
+</div>  
+
+<iframe  
+    id="frame"  
+    src=""  
+    allow="fullscreen; gamepad"  
+    allowfullscreen>  
+</iframe>
+
+</div>  <div class="warning" id="warning">  <h2>⚠️ Página não carregou</h2>  
+
+<p>  
+    O site pode estar impedindo que seja exibido  
+    dentro do WKZ.  
+    <br><br>  
+    Alguns sites bloqueiam a abertura dentro  
+    de outros sites por segurança.  
+</p>  
+
+<button onclick="closeWarning()">Entendi</button>
+
+</div>  <div class="xpNotification" id="xpNotification">  
+    <strong id="xpNotificationText">+10 XP</strong>  
+</div>  <div class="coinNotification" id="coinNotification">  
+    🪙 +2 moedas  
+</div>  <div class="levelUp" id="levelUp">  <div class="levelUpIcon">🎉</div>  
+
+<h2>LEVEL UP!</h2>  
+
+<p id="levelUpText">Você subiu de nível!</p>  
+
+<button onclick="closeLevelUp()">Continuar</button>
+
+</div>  <!-- =========================  
+     LOJA  
+========================= -->  <div class="modalOverlay" id="shopOverlay">  <div class="shopModal">  
+
+    <div class="modalTop">  
+
+        <h2>🛒 Loja WKZ</h2>  
+
+        <button class="closeBtn" onclick="closeShop()">×</button>  
+
+    </div>  
+
+    <div class="shopBalance" id="shopBalance">  
+        🪙 0 moedas  
+    </div>  
+
+    <div class="activePet" id="activePet">  
+
+        <div class="activePetIcon">❌</div>  
+
+        <div class="activePetInfo">  
+
+            <h3>Nenhum pet equipado</h3>  
+
+            <p>Compre um pet para receber bônus.</p>  
+
+        </div>  
+
+    </div>  
+
+    <div class="shopGrid" id="shopGrid"></div>  
+
+</div>
+
+</div>  <!-- =========================  
+     ARCADE  
+========================= -->  <div class="arcadeModal" id="arcadeModal">  <div class="arcadeBox">  
+
+    <div class="arcadeHeader">  
+
+        <h2>🎮 WKZ Arcade</h2>  
+
+        <button class="closeBtn" onclick="closeArcade()">×</button>  
+
+    </div>  
+
+    <div class="gameSelector">  
+
+        <button  
+            class="gameSelectBtn active"  
+            id="targetSelect"  
+            onclick="selectGame('target')">  
+            🎯 Alvo  
+        </button>  
+
+        <button  
+            class="gameSelectBtn"  
+            id="mineSelect"  
+            onclick="selectGame('mine')">  
+            💣 Campo Minado  
+        </button>  
+
+        <button  
+            class="gameSelectBtn"  
+            id="vaultSelect"  
+            onclick="selectGame('vault')">  
+            🔐 Cofre Lendário  
+        </button>  
+
+    </div>  
+
+    <div class="gameInfo">  
+
+        <span id="gameScore">Pontos: 0</span>  
+
+        <span id="gameTime">Tempo: 20</span>  
+
+        <span id="gameCoins">🪙 +0</span>  
+
+    </div>  
+
+    <div class="gameArea" id="gameArea">  
+
+        <div class="target" id="target"></div>  
+
+        <div class="minefield" id="minefield"></div>  
+
+        <div class="vaultGame" id="vaultGame">  
+
+            <div class="vault locked" id="vault">  
+
+                <div class="vaultTitle">  
+                    🔐 COFRE LENDÁRIO WKZ  
+                </div>  
+
+                <div class="vaultSub">  
+                    DESCUBRA O CÓDIGO SECRETO DE 5 NÚMEROS  
+                </div>  
+
+                <div class="vaultDisplay">  
+
+                    <div class="vaultCode" id="vaultCode">  
+                        • • • • •  
+                    </div>  
+
+                </div>  
+
+                <div class="vaultStats">  
+
+                    <div class="vaultStat">  
+                        <small>TENTATIVAS</small>  
+                        <strong id="vaultAttempts">  
+                            ❤️ ❤️ ❤️ ❤️ ❤️  
+                        </strong>  
+                    </div>  
+
+                    <div class="vaultStat">  
+                        <small>RECOMPENSA</small>  
+                        <strong class="vaultReward">  
+                            🪙 1.100  
+                        </strong>  
+                    </div>  
+
+                    <div class="vaultStat">  
+                        <small>DIFICULDADE</small>  
+                        <strong>👑 INSANA</strong>  
+                    </div>  
+
+                </div>  
+
+                <div class="vaultTips">  
+
+                    <div class="vaultTipsTitle">  
+                        🔎 DICAS DO COFRE  
+                    </div>  
+
+                    <div id="vaultTipsList"></div>  
+
+                </div>  
+
+                <div class="vaultKeyboard">  
+
+                    <button class="vaultKey" onclick="vaultKey('1')">1</button>  
+                    <button class="vaultKey" onclick="vaultKey('2')">2</button>  
+                    <button class="vaultKey" onclick="vaultKey('3')">3</button>  
+
+                    <button class="vaultKey" onclick="vaultKey('4')">4</button>  
+                    <button class="vaultKey" onclick="vaultKey('5')">5</button>  
+                    <button class="vaultKey" onclick="vaultKey('6')">6</button>  
+
+                    <button class="vaultKey" onclick="vaultKey('7')">7</button>  
+                    <button class="vaultKey" onclick="vaultKey('8')">8</button>  
+                    <button class="vaultKey" onclick="vaultKey('9')">9</button>  
+
+                    <button class="vaultKey delete" onclick="vaultDelete()">  
+                        ←  
+                    </button>  
+
+                    <button class="vaultKey" onclick="vaultKey('0')">  
+                        0  
+                    </button>  
+
+                    <button class="vaultKey confirm" onclick="vaultSubmit()">  
+                        ✓  
+                    </button>  
+
+                </div>  
+
+                <div class="vaultMessage" id="vaultMessage">  
+                    Resolva as dicas e descubra o código.  
+                </div>  
+
+                <div class="vaultWin" id="vaultWin">  
+
+                    <div class="big">💰</div>  
+
+                    <h2>🔓 COFRE ABERTO!</h2>  
+
+                    <p>  
+                        Você conseguiu descobrir o código lendário!  
+                    </p>  
+
+                    <p style="margin-top:8px;color:#ffd84d;font-weight:bold;">  
+                        +1.100 MOEDAS  
+                    </p>  
+
+                </div>  
+
+            </div>  
+
+        </div>  
+
+    </div>  
+
+    <button  
+        class="startGame"  
+        id="startGame"  
+        onclick="startSelectedGame()">  
+        ▶ COMEÇAR  
+    </button>  
+
+    <div class="gameMessage" id="gameMessage">  
+        Acerte o alvo vermelho o máximo que conseguir.  
+    </div>  
+
+</div>
+
+</div>  
+<!-- =========================
+     ROLETA DE PETS
+========================= -->
+
+<div class="rouletteModal" id="rouletteModal">
+    <div class="rouletteBox" id="rouletteBox">
+        <div class="rouletteHeader">
+            <h2>🎰 ROLETA DE PETS</h2>
+            <button class="closeBtn" onclick="closeRoulette()">×</button>
+        </div>
+
+        <div class="rouletteBalance" id="rouletteBalance">🪙 0 moedas</div>
+
+        <div class="rouletteTrack" id="rouletteTrack">
+            <div class="roulettePointer"></div>
+            <div class="rouletteStrip" id="rouletteStrip"></div>
+        </div>
+
+        <div class="roulettePetsGrid" id="roulettePetsGrid"></div>
+
+        <div class="rouletteResult" id="rouletteResult">
+            <div class="rouletteResultIcon" id="rouletteResultIcon">🎉</div>
+            <div class="rouletteResultText" id="rouletteResultText"></div>
+        </div>
+
+        <div class="rouletteLast">
+            <div class="rouletteLastTitle">ÚLTIMO PET CONSEGUIDO</div>
+            <div class="rouletteLastResult" id="rouletteLastResult">Nenhum pet conseguido ainda.</div>
+        </div>
+
+        <button class="rouletteSpin" id="rouletteSpin" onclick="spinRoulette()">
+            🎰 GIRAR — 50 🪙
+        </button>
+
+        <div class="rouletteInventory">
+            <div class="rouletteInventoryTitle">🐾 INVENTÁRIO DA ROLETA</div>
+            <div class="rouletteInventoryGrid" id="rouletteInventoryGrid"></div>
+        </div>
+    </div>
+</div>
+
+<div class="petFollower" id="petFollower" style="display:none"></div>  <script>  
+  
+/* ==================================================  
+   ELEMENTOS  
+================================================== */  
+  
+const home=document.getElementById("home");  
+const browser=document.getElementById("browser");  
+const frame=document.getElementById("frame");  
+const address=document.getElementById("address");  
+const warning=document.getElementById("warning");  
+const loading=document.getElementById("loading");  
+  
+const xpLevel=document.getElementById("xpLevel");  
+const xpNumber=document.getElementById("xpNumber");  
+const xpProgress=document.getElementById("xpProgress");  
+const xpCurrent=document.getElementById("xpCurrent");  
+const xpNext=document.getElementById("xpNext");  
+  
+const xpNotification=document.getElementById("xpNotification");  
+const xpNotificationText=document.getElementById("xpNotificationText");  
+  
+const levelUp=document.getElementById("levelUp");  
+const levelUpText=document.getElementById("levelUpText");  
+  
+const coinAmount=document.getElementById("coinAmount");  
+const coinMini=document.getElementById("coinMini");  
+const coinNotification=document.getElementById("coinNotification");  
+  
+const shopOverlay=document.getElementById("shopOverlay");  
+const shopGrid=document.getElementById("shopGrid");  
+const shopBalance=document.getElementById("shopBalance");  
+const activePet=document.getElementById("activePet");  
+const petFollower=document.getElementById("petFollower");
+
+/* ROLETA */
+const rouletteModal=document.getElementById("rouletteModal");
+const rouletteBox=document.getElementById("rouletteBox");
+const rouletteBalance=document.getElementById("rouletteBalance");
+const rouletteTrack=document.getElementById("rouletteTrack");
+const rouletteStrip=document.getElementById("rouletteStrip");
+const roulettePetsGrid=document.getElementById("roulettePetsGrid");
+const rouletteResult=document.getElementById("rouletteResult");
+const rouletteResultIcon=document.getElementById("rouletteResultIcon");
+const rouletteResultText=document.getElementById("rouletteResultText");
+const rouletteLastResult=document.getElementById("rouletteLastResult");
+const rouletteSpinButton=document.getElementById("rouletteSpin");
+const rouletteInventoryGrid=document.getElementById("rouletteInventoryGrid");
+  
+  
+const arcadeModal=document.getElementById("arcadeModal");  
+const gameArea=document.getElementById("gameArea");  
+const target=document.getElementById("target");  
+const minefield=document.getElementById("minefield");  
+  
+const vaultGame=document.getElementById("vaultGame");  
+const vault=document.getElementById("vault");  
+const vaultCode=document.getElementById("vaultCode");  
+const vaultAttempts=document.getElementById("vaultAttempts");  
+const vaultTipsList=document.getElementById("vaultTipsList");  
+const vaultMessage=document.getElementById("vaultMessage");  
+const vaultWin=document.getElementById("vaultWin");  
+  
+const gameScore=document.getElementById("gameScore");  
+const gameTime=document.getElementById("gameTime");  
+const gameCoins=document.getElementById("gameCoins");  
+const gameMessage=document.getElementById("gameMessage");  
+const startGameButton=document.getElementById("startGame");  
+  
+const targetSelect=document.getElementById("targetSelect");  
+const mineSelect=document.getElementById("mineSelect");  
+const vaultSelect=document.getElementById("vaultSelect");  
+  
+let loadingTimer=null;  
+let googleMode=false;  
+  
+/* ==================================================  
+   RAINBOW  
+================================================== */  
+  
+let rainbowTimer=null;  
+let rainbowActive=false;  
+  
+function startRainbowTimer(){  
+  
+    clearTimeout(rainbowTimer);  
+  
+    rainbowTimer=setTimeout(function(){  
+        triggerRainbowEvent();  
+    },20000);  
+}  
+  
+function triggerRainbowEvent(){  
+  
+    if(rainbowActive)return;  
+  
+    rainbowActive=true;  
+  
+    document.body.classList.add("rainbowEvent");  
+  
+    const notification=document.createElement("div");  
+  
+    notification.className="rainbowNotification";  
+  
+    notification.innerHTML=  
+        "🌈 EVENTO RAINBOW! 🌈<br>"+  
+        "<small>O WKZ ficará colorido por 15 segundos!</small>";  
+  
+    document.body.appendChild(notification);  
+  
+    addXP(25);  
+  
+    setTimeout(function(){  
+  
+        document.body.classList.remove("rainbowEvent");  
+  
+        notification.remove();  
+  
+        rainbowActive=false;  
+  
+        startRainbowTimer();  
+  
+    },15000);  
+}  
+  
+/* ==================================================  
+   XP  
+================================================== */  
+  
+let xp=parseInt(localStorage.getItem("wkzXP"))||0;  
+let currentLevel=parseInt(localStorage.getItem("wkzLevel"))||0;  
+  
+const levels=[  
+    {name:"Novato",icon:"🧑",xp:0},  
+    {name:"Explorador",icon:"🧭",xp:100},  
+    {name:"Gamer",icon:"🎮",xp:300},  
+    {name:"Pro",icon:"🔥",xp:600},  
+    {name:"Mestre WKZ",icon:"👑",xp:1000},  
+    {name:"Lendário",icon:"💎",xp:1500}  
+];  
+  
+function updateXP(){  
+  
+    let level=0;  
+  
+    for(let i=0;i<levels.length;i++){  
+        if(xp>=levels[i].xp)level=i;  
+    }  
+  
+    if(level>currentLevel){  
+  
+        currentLevel=level;  
+  
+        localStorage.setItem(  
+            "wkzLevel",  
+            currentLevel  
+        );  
+  
+        showLevelUp();  
+    }  
+  
+    localStorage.setItem("wkzXP",xp);  
+  
+    const current=levels[level];  
+  
+    xpLevel.textContent=current.icon+" "+current.name;  
+    xpNumber.textContent=xp+" XP";  
+    xpCurrent.textContent=xp+" XP";  
+  
+    if(level>=levels.length-1){  
+  
+        xpProgress.style.width="100%";  
+        xpNext.textContent="NÍVEL MÁXIMO";  
+        return;  
+    }  
+  
+    const next=levels[level+1];  
+  
+    const progress=  
+        ((xp-current.xp)/  
+        (next.xp-current.xp))*100;  
+  
+    xpProgress.style.width=  
+        Math.max(0,Math.min(100,progress))+"%";  
+  
+    xpNext.textContent=next.xp+" XP";  
+}  
+  
+function addXP(amount){  
+  
+    if(amount<=0)return;  
+  
+    const finalAmount=Math.max(  
+        1,  
+        Math.floor(amount*getXPMultiplier())  
+    );  
+  
+    xp+=finalAmount;  
+  
+    updateXP();  
+  
+    showXPNotification(finalAmount);  
+}  
+  
+let xpNotificationTimer=null;  
+  
+function showXPNotification(amount){  
+  
+    xpNotificationText.textContent="+"+amount+" XP";  
+  
+    xpNotification.style.display="block";  
+  
+    clearTimeout(xpNotificationTimer);  
+  
+    xpNotificationTimer=setTimeout(function(){  
+        xpNotification.style.display="none";  
+    },1800);  
+}  
+  
+function showLevelUp(){  
+  
+    const level=levels[currentLevel];  
+  
+    levelUpText.textContent=  
+        "Você chegou ao nível "+  
+        level.name+" "+level.icon;  
+  
+    levelUp.style.display="block";  
+}  
+  
+function closeLevelUp(){  
+    levelUp.style.display="none";  
+}  
+  
+/* ==================================================  
+   PETS  
+================================================== */  
+  
+const pets=[  
+    {  
+        id:"basic",  
+        nome:"WKZinho",  
+        icon:"🐶",  
+        preco:350,  
+        moeda:1.10,  
+        xp:1.05,  
+        tema:null,  
+        cursor:"default",  
+        descricao:"Um companheiro básico para começar."  
+    },  
+    {  
+        id:"cat",  
+        nome:"Gatinho Hacker",  
+        icon:"🐱",  
+        preco:750,  
+        moeda:1.20,  
+        xp:1.10,  
+        tema:"blue",  
+        cursor:"crosshair",  
+        descricao:"Um gato que gosta de invadir sistemas."  
+    },  
+    {  
+        id:"robot",  
+        nome:"Robô WKZ",  
+        icon:"🤖",  
+        preco:1400,  
+        moeda:1.35,  
+        xp:1.20,  
+        tema:"cyan",  
+        cursor:"cell",  
+        descricao:"Processa moedas e XP com eficiência."  
+    },  
+    {  
+        id:"dragon",  
+        nome:"Dragão",  
+        icon:"🐉",  
+        preco:2500,  
+        moeda:1.50,  
+        xp:1.35,  
+        tema:"purple",  
+        cursor:"grab",  
+        descricao:"Raro. Aumenta bastante seus ganhos."  
+    },  
+    {  
+        id:"ghost",  
+        nome:"Fantasma",  
+        icon:"👻",  
+        preco:4200,  
+        moeda:1.70,  
+        xp:1.50,  
+        tema:"green",  
+        cursor:"wait",  
+        descricao:"Um pet misterioso com grandes bônus."  
+    },  
+    {  
+        id:"crown",  
+        nome:"Rei WKZ",  
+        icon:"👑",  
+        preco:7000,  
+        moeda:2.00,  
+        xp:1.75,  
+        tema:"gold",  
+        cursor:"pointer",  
+        descricao:"Um dos pets mais poderosos da loja."  
+    },  
+    {  
+        id:"alien",  
+        nome:"Alienígena",  
+        icon:"👽",  
+        preco:11000,  
+        moeda:2.40,  
+        xp:2.00,  
+        tema:"pink",  
+        cursor:"crosshair",  
+        descricao:"Extremamente raro e muito poderoso."  
+    }  
+];  
+  
+let coins=parseInt(localStorage.getItem("wkzCoins"))||0;  
+  
+let ownedPets=  
+    JSON.parse(  
+        localStorage.getItem("wkzOwnedPets")  
+    )||[];  
+  
+let equippedPet=  
+    localStorage.getItem("wkzEquippedPet")||"";  
+  
+function getEquippedPet(){  
+  
+    return pets.find(function(pet){  
+        return pet.id===equippedPet;  
+    })||null;  
+}  
+  
+function getCoinMultiplier(){  
+  
+    const pet=getEquippedPet();  
+  
+    return pet?pet.moeda:1;  
+}  
+  
+function getXPMultiplier(){  
+  
+    const pet=getEquippedPet();  
+  
+    return pet?pet.xp:1;  
+}  
+  
+/* ==================================================  
+   MOEDAS  
+================================================== */  
+  
+function addCoins(amount,mostrar=true){  
+  
+    if(amount<=0)return;  
+  
+    const finalAmount=Math.max(  
+        1,  
+        Math.floor(  
+            amount*getCoinMultiplier()  
+        )  
+    );  
+  
+    coins+=finalAmount;  
+  
+    localStorage.setItem(  
+        "wkzCoins",  
+        coins  
+    );  
+  
+    updateCoins();  
+  
+    if(mostrar){  
+        showCoinNotification(finalAmount);  
+    }  
+}  
+  
+function updateCoins(){  
+  
+    coinAmount.textContent=  
+        coins.toLocaleString("pt-BR");  
+  
+    coinMini.textContent=  
+        "🪙 "+coins.toLocaleString("pt-BR");  
+  
+    shopBalance.textContent=  
+        "🪙 "+  
+        coins.toLocaleString("pt-BR")+  
+        " moedas";  
+}  
+  
+let coinNotificationTimer=null;  
+  
+function showCoinNotification(amount){  
+  
+    coinNotification.textContent=  
+        "🪙 +"+  
+        amount+  
+        " moeda"+  
+        (amount===1?"":"s");  
+  
+    coinNotification.style.display="block";  
+  
+    clearTimeout(coinNotificationTimer);  
+  
+    coinNotificationTimer=setTimeout(function(){  
+        coinNotification.style.display="none";  
+    },1800);  
+}  
+  
+setInterval(function(){  
+    addCoins(2,true);  
+},30000);  
+  
+setInterval(function(){  
+    addXP(5);  
+},30000);  
+  
+/* ==================================================  
+   LOJA  
+================================================== */  
+  
+function openShop(){  
+  
+    renderShop();  
+  
+    shopOverlay.style.display="block";  
+}  
+  
+function closeShop(){  
+    shopOverlay.style.display="none";  
+}  
+  
+function renderShop(){  
+  
+    shopGrid.innerHTML="";  
+  
+    pets.forEach(function(pet){  
+  
+        const owned=ownedPets.includes(pet.id);  
+        const equipped=equippedPet===pet.id;  
+  
+        const card=document.createElement("div");  
+  
+        card.className="shopItem";  
+  
+        let buttonText="🪙 Comprar";  
+  
+        if(equipped){  
+            buttonText="✓ Equipado";  
+        }else if(owned){  
+            buttonText="🐾 Equipar";  
+        }else{  
+            buttonText=  
+                "🪙 "+  
+                pet.preco.toLocaleString("pt-BR");  
+        }  
+  
+        card.innerHTML=`  
+  
+            <div class="petVisual">  
+                ${pet.icon}  
+            </div>  
+  
+            <h3>${pet.nome}</h3>  
+  
+            <p>${pet.descricao}</p>  
+  
+            <div class="petBonus">  
+  
+                🪙 Moedas:  
+                +${Math.round((pet.moeda-1)*100)}%  
+  
+                <br>  
+  
+                ⭐ XP:  
+                +${Math.round((pet.xp-1)*100)}%  
+  
+                ${pet.tema?"<br>🎨 Tema especial":""}  
+  
+            </div>  
+  
+            <button  
+                class="buyBtn ${owned?"owned":""} ${equipped?"equipped":""}"  
+                onclick="petAction('${pet.id}')"  
+                ${equipped?"disabled":""}>  
+  
+                ${buttonText}  
+  
+            </button>  
+        `;  
+  
+        shopGrid.appendChild(card);  
+    });  
+  
+    updateActivePet();  
+}  
+  
+function petAction(id){  
+  
+    const pet=pets.find(function(p){  
+        return p.id===id;  
+    });  
+  
+    if(!pet)return;  
+  
+    if(ownedPets.includes(id)){  
+  
+        equipPet(id);  
+        return;  
+    }  
+  
+    if(coins<pet.preco){  
+  
+        alert(  
+            "❌ Você ainda não tem moedas suficientes.\n\n"+  
+            "Faltam "+  
+            (pet.preco-coins)+  
+            " moedas."  
+        );  
+  
+        return;  
+    }  
+  
+    coins-=pet.preco;  
+  
+    ownedPets.push(id);  
+  
+    localStorage.setItem(  
+        "wkzCoins",  
+        coins  
+    );  
+  
+    localStorage.setItem(  
+        "wkzOwnedPets",  
+        JSON.stringify(ownedPets)  
+    );  
+  
+    equipPet(id);  
+  
+    updateCoins();  
+  
+    renderShop();  
+}  
+  
+function equipPet(id){  
+  
+    if(!ownedPets.includes(id))return;  
+  
+    equippedPet=id;  
+  
+    localStorage.setItem(  
+        "wkzEquippedPet",  
+        id  
+    );  
+  
+    applyPet();  
+  
+    renderShop();  
+}  
+  
+function applyPet(){  
+  
+    document.body.classList.remove(  
+        "theme-blue",  
+        "theme-purple",  
+        "theme-green",  
+        "theme-gold",  
+        "theme-pink",  
+        "theme-cyan"  
+    );  
+  
+    document.body.classList.remove(  
+        "cursor-default",  
+        "cursor-crosshair",  
+        "cursor-pointer",  
+        "cursor-wait",  
+        "cursor-cell",  
+        "cursor-grab"  
+    );  
+  
+    const pet=getEquippedPet();  
+  
+    if(!pet){  
+  
+        petFollower.style.display="none";  
+  
+        document.body.classList.add(  
+            "cursor-default"  
+        );  
+  
+        return;  
+    }  
+  
+    petFollower.textContent=pet.icon;  
+  
+    petFollower.style.display="block";  
+  
+    document.body.classList.add(  
+        "cursor-"+pet.cursor  
+    );  
+  
+    if(pet.tema){  
+  
+        document.body.classList.add(  
+            "theme-"+pet.tema  
+        );  
+    }  
+}  
+  
+function updateActivePet(){  
+  
+    const pet=getEquippedPet();  
+  
+    if(!pet){  
+  
+        activePet.innerHTML=`  
+  
+            <div class="activePetIcon">❌</div>  
+  
+            <div class="activePetInfo">  
+  
+                <h3>Nenhum pet equipado</h3>  
+  
+                <p>  
+                    Compre um pet para receber bônus.  
+                </p>  
+  
+            </div>  
+        `;  
+  
+        return;  
+    }  
+  
+    activePet.innerHTML=`  
+  
+        <div class="activePetIcon">  
+            ${pet.icon}  
+        </div>  
+  
+        <div class="activePetInfo">  
+  
+            <h3>${pet.nome}</h3>  
+  
+            <p>  
+                🪙 +${Math.round((pet.moeda-1)*100)}% moedas  
+                &nbsp; | &nbsp;  
+                ⭐ +${Math.round((pet.xp-1)*100)}% XP  
+            </p>  
+  
+        </div>  
+    `;  
+}  
+  
+
+/* ==================================================
+   ROLETA DE PETS
+================================================== */
+
+const ROULETTE_COST=50;
+
+const roulettePets=[
+    {id:"roulette_common",nome:"Pet Comum",icon:"🐶",raridade:"Comum",chance:40,xp:5,moedas:10,classe:"common"},
+    {id:"roulette_uncommon",nome:"Pet Incomum",icon:"🐱",raridade:"Incomum",chance:30,xp:10,moedas:20,classe:"uncommon"},
+    {id:"roulette_rare",nome:"Pet Raro",icon:"🐺",raridade:"Raro",chance:25,xp:20,moedas:40,classe:"rare"},
+    {id:"roulette_legendary",nome:"Pet Lendário",icon:"👑",raridade:"Lendário",chance:5,xp:100,moedas:250,classe:"legendary"}
+];
+
+let rouletteSpinning=false;
+let rouletteInventory=JSON.parse(localStorage.getItem("wkzRoulettePets"))||{};
+let rouletteLastPetId=localStorage.getItem("wkzRouletteLastPet")||"";
+
+function validateRoulettePets(){
+    const total=roulettePets.reduce(function(sum,pet){
+        return sum+Number(pet.chance||0);
+    },0);
+    if(total!==100){
+        console.error("Chances da roleta inválidas. Total:",total);
+        return false;
+    }
+    return true;
+}
+
+function openRoulette(){
+    if(!validateRoulettePets()){
+        alert("❌ Erro na configuração das chances da roleta.");
+        return;
+    }
+    rouletteModal.style.display="block";
+    renderRoulette();
+}
+
+function closeRoulette(){
+    if(rouletteSpinning)return;
+    rouletteModal.style.display="none";
+}
+
+function renderRoulette(){
+    rouletteBalance.textContent="🪙 "+coins.toLocaleString("pt-BR")+" moedas";
+    roulettePetsGrid.innerHTML="";
+
+    roulettePets.forEach(function(pet){
+        const card=document.createElement("div");
+        card.className="roulettePetInfo "+pet.classe;
+        card.innerHTML=`
+            <div class="icon">${pet.icon}</div>
+            <h3>${pet.nome}</h3>
+            <p class="chance">${pet.chance}% — ${pet.raridade}</p>
+            <p>⭐ +${pet.xp} XP</p>
+            <p>🪙 +${pet.moedas} moedas</p>
+        `;
+        roulettePetsGrid.appendChild(card);
+    });
+
+    renderRouletteInventory();
+
+    if(rouletteLastPetId){
+        const last=roulettePets.find(function(pet){
+            return pet.id===rouletteLastPetId;
+        });
+        if(last){
+            rouletteLastResult.textContent=last.icon+" "+last.nome+" — "+last.raridade+" (x"+Number(rouletteInventory[last.id]||0)+")";
+        }
+    }
+
+    updateRouletteButton();
+}
+
+function renderRouletteInventory(){
+    rouletteInventoryGrid.innerHTML="";
+    roulettePets.forEach(function(pet){
+        const amount=Number(rouletteInventory[pet.id]||0);
+        const item=document.createElement("div");
+        item.className="rouletteInventoryItem";
+        item.innerHTML=`<span class="big">${pet.icon}</span>${pet.nome}<br><strong>x${amount}</strong>`;
+        rouletteInventoryGrid.appendChild(item);
+    });
+}
+
+function updateRouletteButton(){
+    rouletteBalance.textContent="🪙 "+coins.toLocaleString("pt-BR")+" moedas";
+
+    if(rouletteSpinning){
+        rouletteSpinButton.disabled=true;
+        rouletteSpinButton.textContent="🎰 GIRANDO...";
+        return;
+    }
+
+    rouletteSpinButton.disabled=coins<ROULETTE_COST;
+    rouletteSpinButton.textContent=
+        coins<ROULETTE_COST
+        ? "🔒 FALTAM "+(ROULETTE_COST-coins)+" 🪙"
+        : "🎰 GIRAR — 50 🪙";
+}
+
+function drawRoulettePet(){
+    const random=Math.random()*100;
+    let accumulated=0;
+
+    for(let i=0;i<roulettePets.length;i++){
+        accumulated+=Number(roulettePets[i].chance);
+        if(random<accumulated)return roulettePets[i];
+    }
+
+    return roulettePets[roulettePets.length-1];
+}
+
+function addRoulettePet(pet){
+    rouletteInventory[pet.id]=Number(rouletteInventory[pet.id]||0)+1;
+
+    localStorage.setItem(
+        "wkzRoulettePets",
+        JSON.stringify(rouletteInventory)
+    );
+
+    rouletteLastPetId=pet.id;
+    localStorage.setItem("wkzRouletteLastPet",pet.id);
+}
+
+function addCoinsExact(amount,mostrar=true){
+    amount=Math.max(0,Math.floor(Number(amount)||0));
+    if(amount<=0)return;
+
+    coins+=amount;
+
+    localStorage.setItem("wkzCoins",coins);
+    updateCoins();
+
+    if(mostrar)showCoinNotification(amount);
+}
+
+function addXPExact(amount){
+    amount=Math.max(0,Math.floor(Number(amount)||0));
+    if(amount<=0)return;
+
+    xp+=amount;
+    updateXP();
+}
+
+function buildRouletteStrip(){
+    rouletteStrip.innerHTML="";
+
+    const sequence=[];
+    for(let round=0;round<14;round++){
+        roulettePets.forEach(function(pet){
+            sequence.push(pet);
+        });
+    }
+
+    sequence.forEach(function(pet){
+        const card=document.createElement("div");
+        card.className="rouletteCard "+pet.classe;
+        card.dataset.petId=pet.id;
+        card.innerHTML=`
+            <div class="rouletteCardIcon">${pet.icon}</div>
+            <div class="rouletteCardName">${pet.nome}</div>
+            <div class="rouletteCardRarity">${pet.raridade}</div>
+        `;
+        rouletteStrip.appendChild(card);
+    });
+
+    rouletteStrip.style.transition="none";
+    rouletteStrip.style.transform="translateX(0px)";
+}
+
+function showRouletteResult(pet){
+    rouletteResult.style.display="flex";
+    rouletteResult.classList.toggle(
+        "legendary",
+        pet.id==="roulette_legendary"
+    );
+
+    rouletteResultIcon.textContent=pet.icon;
+    rouletteResultText.innerHTML=`
+        🎉 <strong>VOCÊ GANHOU!</strong><br>
+        ${pet.icon} ${pet.nome} — ${pet.raridade}<br>
+        +${pet.xp} XP &nbsp; | &nbsp; +${pet.moedas} 🪙
+    `;
+
+    rouletteLastResult.textContent=
+        pet.icon+" "+pet.nome+" — "+pet.raridade+
+        " (x"+Number(rouletteInventory[pet.id]||0)+")";
+
+    renderRouletteInventory();
+}
+
+function spinRoulette(){
+    if(rouletteSpinning)return;
+
+    if(coins<ROULETTE_COST){
+        updateRouletteButton();
+        alert(
+            "❌ Você não tem moedas suficientes.\n\n"+
+            "Cada giro custa 50 moedas.\n"+
+            "Faltam "+(ROULETTE_COST-coins)+" moedas."
+        );
+        return;
+    }
+
+    const winner=drawRoulettePet();
+
+    coins=Math.max(0,coins-ROULETTE_COST);
+    localStorage.setItem("wkzCoins",coins);
+    updateCoins();
+
+    rouletteSpinning=true;
+    rouletteResult.style.display="none";
+    rouletteBox.classList.add("rolling");
+    updateRouletteButton();
+
+    buildRouletteStrip();
+
+    requestAnimationFrame(function(){
+        const cards=rouletteStrip.querySelectorAll(".rouletteCard");
+        const occurrences=[];
+
+        cards.forEach(function(card,index){
+            if(card.dataset.petId===winner.id){
+                occurrences.push({card:card,index:index});
+            }
+        });
+
+        if(!occurrences.length){
+            finishRoulette(winner);
+            return;
+        }
+
+        /*
+           Usa uma ocorrência perto do fim para que a animação
+           percorra vários pets antes de parar no vencedor.
+        */
+        const chosen=occurrences[Math.max(0,occurrences.length-2)].card;
+        const trackRect=rouletteTrack.getBoundingClientRect();
+        const cardRect=chosen.getBoundingClientRect();
+        const trackCenter=trackRect.left+trackRect.width/2;
+        const cardCenter=cardRect.left+cardRect.width/2;
+
+        const finalX=trackCenter-cardCenter;
+
+        rouletteStrip.style.transition=
+            "transform 5.2s cubic-bezier(.08,.72,.12,1)";
+        rouletteStrip.style.transform=
+            "translateX("+finalX+"px)";
+
+        setTimeout(function(){
+            finishRoulette(winner);
+        },5400);
+    });
+}
+
+function finishRoulette(pet){
+    if(!rouletteSpinning)return;
+
+    rouletteSpinning=false;
+    rouletteBox.classList.remove("rolling");
+
+    addRoulettePet(pet);
+
+    /* Recompensas da roleta são exatamente as configuradas. */
+    addXPExact(pet.xp);
+    addCoinsExact(pet.moedas,true);
+
+    showRouletteResult(pet);
+    updateRouletteButton();
+}
+
+rouletteModal.addEventListener("click",function(event){
+    if(event.target===rouletteModal && !rouletteSpinning){
+        closeRoulette();
+    }
+});
+
+/* ==================================================  
+   ARCADE  
+================================================== */  
+  
+let selectedGame="target";  
+let gameRunning=false;  
+  
+function openArcade(){  
+  
+    arcadeModal.style.display="block";  
+  
+    selectGame(selectedGame);  
+}  
+  
+function closeArcade(){  
+  
+    arcadeModal.style.display="none";  
+  
+    stopAllGames();  
+}  
+  
+function selectGame(game){  
+  
+    if(gameRunning)return;  
+  
+    selectedGame=game;  
+  
+    targetSelect.classList.remove("active");  
+    mineSelect.classList.remove("active");  
+    vaultSelect.classList.remove("active");  
+  
+    target.style.display="none";  
+    minefield.style.display="none";  
+    vaultGame.style.display="none";  
+  
+    if(game==="target"){  
+  
+        targetSelect.classList.add("active");  
+  
+        gameScore.textContent="Pontos: 0";  
+        gameTime.textContent="Tempo: 20";  
+        gameCoins.textContent="🪙 +0";  
+  
+        gameMessage.textContent=  
+            "Acerte o alvo vermelho o máximo que conseguir.";  
+    }  
+  
+    if(game==="mine"){  
+  
+        mineSelect.classList.add("active");  
+  
+        gameScore.textContent="Moedas: 0";  
+        gameTime.textContent="Tempo: 30";  
+        gameCoins.textContent="🪙 +0";  
+  
+        gameMessage.textContent=  
+            "Encontre as moedas. Cuidado com as bombas!";  
+    }  
+  
+    if(game==="vault"){  
+  
+        vaultSelect.classList.add("active");  
+  
+        gameScore.textContent="Cofre";  
+        gameTime.textContent="∞";  
+        gameCoins.textContent="🪙 1.100";  
+  
+        vaultGame.style.display="block";  
+  
+        gameMessage.textContent=  
+            "Descubra o código secreto para ganhar 1.100 moedas.";  
+  
+        resetVaultVisual();  
+    }  
+  
+    startGameButton.textContent="▶ COMEÇAR";  
+}  
+  
+function startSelectedGame(){  
+  
+    if(selectedGame==="target"){  
+        startTargetGame();  
+    }  
+  
+    else if(selectedGame==="mine"){  
+        startMineGame();  
+    }  
+  
+    else{  
+        startVaultGame();  
+    }  
+}  
+  
+function stopAllGames(){  
+  
+    gameRunning=false;  
+  
+    clearInterval(gameTimer);  
+    clearInterval(mineTimer);  
+  
+    gameTimer=null;  
+    mineTimer=null;  
+  
+    target.style.display="none";  
+  
+    minefield.style.display="none";  
+  
+    minefield.innerHTML="";  
+  
+    if(vaultGame){  
+        vaultGame.style.display=  
+            selectedGame==="vault"?"block":"none";  
+    }  
+  
+    startGameButton.textContent="▶ COMEÇAR";  
+}  
+  
+/* ==================================================  
+   ALVO  
+================================================== */  
+  
+let gameScoreValue=0;  
+let gameTimeValue=20;  
+let gameTimer=null;  
+let gameCoinReward=0;  
+  
+function startTargetGame(){  
+  
+    if(gameRunning)return;  
+  
+    stopAllGames();  
+  
+    selectedGame="target";  
+    gameRunning=true;  
+  
+    gameScoreValue=0;  
+    gameTimeValue=20;  
+    gameCoinReward=0;  
+  
+    gameScore.textContent="Pontos: 0";  
+    gameTime.textContent="Tempo: 20";  
+    gameCoins.textContent="🪙 +0";  
+  
+    gameMessage.textContent=  
+        "Clique no alvo o mais rápido possível!";  
+  
+    startGameButton.textContent="🎮 JOGANDO...";  
+  
+    target.style.display="block";  
+  
+    spawnTarget();  
+  
+    gameTimer=setInterval(function(){  
+  
+        gameTimeValue--;  
+  
+        gameTime.textContent=  
+            "Tempo: "+gameTimeValue;  
+  
+        if(gameTimeValue<=0){  
+            endTargetGame();  
+        }  
+  
+    },1000);  
+}  
+  
+function spawnTarget(){  
+  
+    if(!gameRunning)return;  
+  
+    const rect=gameArea.getBoundingClientRect();  
+  
+    const size=48;  
+  
+    const maxX=Math.max(0,rect.width-size);  
+    const maxY=Math.max(0,rect.height-size);  
+  
+    target.style.left=  
+        Math.random()*maxX+"px";  
+  
+    target.style.top=  
+        Math.random()*maxY+"px";  
+  
+    target.style.display="block";  
+}  
+  
+target.addEventListener("click",function(event){  
+  
+    event.stopPropagation();  
+  
+    if(  
+        !gameRunning ||  
+        selectedGame!=="target"  
+    )return;  
+  
+    gameScoreValue++;  
+  
+    gameScore.textContent=  
+        "Pontos: "+gameScoreValue;  
+  
+    if(gameScoreValue%5===0){  
+  
+        gameCoinReward++;  
+  
+        gameCoins.textContent=  
+            "🪙 +"+gameCoinReward;  
+    }  
+  
+    addXP(1);  
+  
+    spawnTarget();  
+});  
+  
+function endTargetGame(){  
+  
+    if(!gameRunning)return;  
+  
+    gameRunning=false;  
+  
+    clearInterval(gameTimer);  
+  
+    target.style.display="none";  
+  
+    let baseReward=Math.floor(  
+        gameScoreValue/5  
+    );  
+  
+    baseReward=Math.min(  
+        baseReward,  
+        5  
+    );  
+  
+    if(baseReward>0){  
+        addCoins(baseReward,true);  
+    }  
+  
+    gameCoinReward=baseReward;  
+  
+    gameCoins.textContent=  
+        "🪙 +"+baseReward;  
+  
+    gameMessage.textContent=  
+        "Fim! Você fez "+  
+        gameScoreValue+  
+        " pontos e ganhou "+  
+        baseReward+  
+        " moeda"+  
+        (baseReward===1?"":"s")+".";  
+  
+    startGameButton.textContent=  
+        "🔄 JOGAR NOVAMENTE";  
+}  
+  
+/* ==================================================  
+   CAMPO MINADO  
+================================================== */  
+  
+let mineTimer=null;  
+let mineTimeValue=30;  
+let mineEarned=0;  
+let mineRevealed=0;  
+let mineCells=[];  
+  
+const MINE_TOTAL=25;  
+const MINE_BOMBS=8;  
+  
+function startMineGame(){  
+  
+    if(gameRunning)return;  
+  
+    stopAllGames();  
+  
+    selectedGame="mine";  
+    gameRunning=true;  
+  
+    mineTimeValue=30;  
+    mineEarned=0;  
+    mineRevealed=0;  
+    mineCells=[];  
+  
+    gameScore.textContent="Moedas: 0";  
+    gameTime.textContent="Tempo: 30";  
+    gameCoins.textContent="🪙 +0";  
+  
+    gameMessage.textContent=  
+        "Escolha os quadrados. Moeda +1. Bomba tira 1.";  
+  
+    startGameButton.textContent="💣 JOGANDO...";  
+  
+    minefield.style.display="grid";  
+  
+    createMinefield();  
+  
+    mineTimer=setInterval(function(){  
+  
+        mineTimeValue--;  
+  
+        gameTime.textContent=  
+            "Tempo: "+mineTimeValue;  
+  
+        if(mineTimeValue<=0){  
+            endMineGame();  
+        }  
+  
+    },1000);  
+}  
+  
+function createMinefield(){  
+  
+    minefield.innerHTML="";  
+  
+    let values=[];  
+  
+    for(  
+        let i=0;  
+        i<MINE_TOTAL-MINE_BOMBS;  
+        i++  
+    ){  
+        values.push(0);  
+    }  
+  
+    for(  
+        let i=0;  
+        i<MINE_BOMBS;  
+        i++  
+    ){  
+        values.push(1);  
+    }  
+  
+    for(  
+        let i=values.length-1;  
+        i>0;  
+        i--  
+    ){  
+  
+        const j=  
+            Math.floor(  
+                Math.random()*(i+1)  
+            );  
+  
+        [  
+            values[i],  
+            values[j]  
+        ]=[  
+            values[j],  
+            values[i]  
+        ];  
+    }  
+  
+    for(  
+        let i=0;  
+        i<MINE_TOTAL;  
+        i++  
+    ){  
+  
+        const cell=  
+            document.createElement("button");  
+  
+        cell.className="mineCell";  
+  
+        cell.dataset.type=values[i];  
+  
+        cell.dataset.revealed="false";  
+  
+        cell.textContent="?";  
+  
+        cell.onclick=function(){  
+            revealMineCell(cell);  
+        };  
+  
+        mineCells.push(cell);  
+  
+        minefield.appendChild(cell);  
+    }  
+}  
+  
+function revealMineCell(cell){  
+  
+    if(!gameRunning)return;  
+  
+    if(selectedGame!=="mine")return;  
+  
+    if(cell.dataset.revealed==="true")return;  
+  
+    cell.dataset.revealed="true";  
+  
+    cell.classList.add("revealed");  
+  
+    mineRevealed++;  
+  
+    const type=parseInt(  
+        cell.dataset.type  
+    );  
+  
+    if(type===0){  
+  
+        cell.textContent="🪙";  
+  
+        cell.classList.add("coin");  
+  
+        mineEarned++;  
+  
+        gameScore.textContent=  
+            "Moedas: "+mineEarned;  
+  
+        gameCoins.textContent=  
+            "🪙 +"+mineEarned;  
+  
+        addXP(1);  
+  
+        gameMessage.textContent=  
+            "🪙 Você encontrou uma moeda!";  
+    }  
+  
+    else{  
+  
+        cell.textContent="💣";  
+  
+        cell.classList.add("bomb");  
+  
+        if(mineEarned>0){  
+            mineEarned--;  
+        }  
+  
+        gameScore.textContent=  
+            "Moedas: "+mineEarned;  
+  
+        gameCoins.textContent=  
+            "🪙 +"+mineEarned;  
+  
+        gameMessage.textContent=  
+            "💣 BOOM! Você perdeu 1 moeda da rodada.";  
+    }  
+  
+    if(mineRevealed>=MINE_TOTAL){  
+        endMineGame();  
+    }  
+}  
+  
+function endMineGame(){  
+  
+    if(!gameRunning)return;  
+  
+    gameRunning=false;  
+  
+    clearInterval(mineTimer);  
+  
+    mineCells.forEach(function(cell){  
+  
+        if(cell.dataset.revealed!=="true"){  
+  
+            const type=parseInt(  
+                cell.dataset.type  
+            );  
+  
+            cell.dataset.revealed="true";  
+  
+            cell.classList.add("revealed");  
+  
+            if(type===0){  
+  
+                cell.textContent="🪙";  
+                cell.classList.add("coin");  
+  
+            }else{  
+  
+                cell.textContent="💣";  
+                cell.classList.add("bomb");  
+            }  
+        }  
+    });  
+  
+    const finalReward=  
+        Math.max(0,mineEarned);  
+  
+    if(finalReward>0){  
+        addCoins(finalReward,true);  
+    }  
+  
+    gameCoins.textContent=  
+        "🪙 +"+finalReward;  
+  
+    if(finalReward===0){  
+  
+        gameMessage.textContent=  
+            "💥 Fim! Você terminou sem moedas para receber.";  
+  
+    }else{  
+  
+        gameMessage.textContent=  
+            "🏁 Fim! Você ganhou "+  
+            finalReward+  
+            " moeda"+  
+            (finalReward===1?"":"s")+  
+            " nesta rodada.";  
+    }  
+  
+    startGameButton.textContent=  
+        "🔄 JOGAR NOVAMENTE";  
+}  
+  
+/* ==================================================  
+   🔐 COFRE LENDÁRIO  
+================================================== */  
+  
+let vaultRunning=false;  
+let vaultSecret=[];  
+let vaultInput="";  
+let vaultTryCount=5;  
+let vaultTips=[];  
+let vaultUsed=false;  
+  
+/*  
+   Recompensa fixa.  
+*/  
+const VAULT_REWARD=1100;  
+  
+/*  
+   Gera uma senha de 5 números  
+   sem números repetidos.  
+*/  
+function generateVaultSecret(){  
+  
+    let numbers=[  
+        0,1,2,3,4,5,6,7,8,9  
+    ];  
+  
+    for(  
+        let i=numbers.length-1;  
+        i>0;  
+        i--  
+    ){  
+  
+        const j=  
+            Math.floor(  
+                Math.random()*(i+1)  
+            );  
+  
+        [  
+            numbers[i],  
+            numbers[j]  
+        ]=[  
+            numbers[j],  
+            numbers[i]  
+        ];  
+    }  
+  
+    return numbers  
+        .slice(0,5)  
+        .map(String);  
+}  
+  
+/*  
+   Gera dicas baseadas na senha.  
+*/  
+function generateVaultTips(){  
+  
+    const n=vaultSecret.map(Number);  
+  
+    const sum=n.reduce(  
+        (a,b)=>a+b,  
+        0  
+    );  
+  
+    const evenCount=  
+        n.filter(x=>x%2===0).length;  
+  
+    const oddCount=  
+        n.filter(x=>x%2!==0).length;  
+  
+    const maxIndex=  
+        n.indexOf(Math.max(...n))+1;  
+  
+    const minIndex=  
+        n.indexOf(Math.min(...n))+1;  
+  
+    let tips=[  
+        "Nenhum número se repete.",  
+        "O primeiro número é "+  
+        (n[0]>=5?"maior ou igual a 5.":"menor que 5."),  
+  
+        "O segundo número é "+  
+        (n[1]%2===0?"par.":"ímpar."),  
+  
+        "O terceiro número é "+  
+        (n[2]>=5?"maior ou igual a 5.":"menor que 5."),  
+  
+        "O último número é "+  
+        (n[4]%2===0?"par.":"ímpar."),  
+  
+        "Existem exatamente "+  
+        evenCount+  
+        " número"+  
+        (evenCount===1?" par.":" pares."),  
+  
+        "Existem exatamente "+  
+        oddCount+  
+        " número"+  
+        (oddCount===1?" ímpar.":" ímpares."),  
+  
+        "A soma dos cinco números é "+  
+        (sum>=25?"25 ou maior.":"menor que 25."),  
+  
+        "O maior número está na posição "+  
+        maxIndex+".",  
+  
+        "O menor número está na posição "+  
+        minIndex+".",  
+  
+        "O primeiro número é "+  
+        (n[0]>n[4]?  
+            "maior que o último.":  
+            "menor ou igual ao último."),  
+  
+        "O terceiro número é "+  
+        (n[2]>n[1]?  
+            "maior que o segundo.":  
+            "menor ou igual ao segundo.")  
+    ];  
+  
+    /*  
+       Embaralha as dicas.  
+    */  
+    for(  
+        let i=tips.length-1;  
+        i>0;  
+        i--  
+    ){  
+  
+        const j=  
+            Math.floor(  
+                Math.random()*(i+1)  
+            );  
+  
+        [  
+            tips[i],  
+            tips[j]  
+        ]=[  
+            tips[j],  
+            tips[i]  
+        ];  
+    }  
+  
+    return tips;  
+}  
+  
+function startVaultGame(){  
+  
+    if(gameRunning)return;  
+  
+    stopAllGames();  
+  
+    selectedGame="vault";  
+  
+    gameRunning=true;  
+    vaultRunning=true;  
+    vaultUsed=false;  
+  
+    vaultSecret=  
+        generateVaultSecret();  
+  
+    vaultInput="";  
+  
+    vaultTryCount=5;  
+  
+    vaultTips=  
+        generateVaultTips();  
+  
+    vaultGame.style.display="block";  
+  
+    gameScore.textContent="Cofre";  
+    gameTime.textContent="∞";  
+    gameCoins.textContent="🪙 1.100";  
+  
+    startGameButton.textContent=  
+        "🔐 COFRE ABERTO PARA TENTATIVA...";  
+  
+    gameMessage.textContent=  
+        "Analise as dicas e descubra os 5 números.";  
+  
+    resetVaultVisual();  
+  
+    renderVaultTips();  
+  
+    updateVaultDisplay();  
+}  
+  
+function resetVaultVisual(){  
+  
+    vault.classList.remove(  
+        "opened",  
+        "vaultShake"  
+    );  
+  
+    vault.classList.add("locked");  
+  
+    vaultCode.classList.remove("success");  
+  
+    vaultWin.style.display="none";  
+  
+    vaultMessage.textContent=  
+        "Resolva as dicas e descubra o código.";  
+  
+    vaultInput="";  
+  
+    if(vaultSecret.length){  
+  
+        updateVaultDisplay();  
+        renderVaultTips();  
+    }  
+}  
+  
+function renderVaultTips(){  
+  
+    vaultTipsList.innerHTML="";  
+  
+    /*  
+       Durante a partida:  
+  
+       3 dicas iniciais.  
+  
+       A cada erro:  
+       +1 dica.  
+  
+       Máximo de 7 dicas.  
+    */  
+  
+    const unlocked=  
+        Math.min(  
+            3+(5-vaultTryCount),  
+            7  
+        );  
+  
+    vaultTips.forEach(function(tip,index){  
+  
+        const div=  
+            document.createElement("div");  
+  
+        div.className="tip";  
+  
+        if(index<unlocked){  
+  
+            div.classList.add("unlocked");  
+  
+            div.textContent=  
+                "🔎 "+tip;  
+  
+        }else{  
+  
+            div.classList.add("locked");  
+  
+            div.textContent=  
+                "🔒 Dica bloqueada — erre uma tentativa para liberar.";  
+  
+        }  
+  
+        vaultTipsList.appendChild(div);  
+    });  
+}  
+  
+function updateVaultDisplay(){  
+  
+    let display="";  
+  
+    for(  
+        let i=0;  
+        i<5;  
+        i++  
+    ){  
+  
+        if(vaultInput[i]){  
+            display+=vaultInput[i]+" ";  
+        }else{  
+            display+="• ";  
+        }  
+    }  
+  
+    vaultCode.textContent=  
+        display.trim();  
+  
+    let hearts="";  
+  
+    for(  
+        let i=0;  
+        i<vaultTryCount;  
+        i++  
+    ){  
+        hearts+="❤️ ";  
+    }  
+  
+    for(  
+        let i=vaultTryCount;  
+        i<5;  
+        i++  
+    ){  
+        hearts+="🖤 ";  
+    }  
+  
+    vaultAttempts.textContent=  
+        hearts.trim();  
+}  
+  
+
+function focusVaultNativeInput(){
+
+    if(!vaultRunning)return;
+
+    const input=document.getElementById("vaultNativeInput");
+
+    if(!input)return;
+
+    input.value=vaultInput;
+    input.focus();
+
+    try{
+        input.setSelectionRange(
+            input.value.length,
+            input.value.length
+        );
+    }catch(e){}
+
+    vaultMessage.textContent=
+        "⌨️ Digite os 5 números pelo teclado ou pelos botões.";
+}
+
+function vaultNativeInputChanged(value){
+
+    if(!vaultRunning)return;
+
+    value=String(value)
+        .replace(/[^0-9]/g,"")
+        .slice(0,5);
+
+    const input=document.getElementById("vaultNativeInput");
+
+    if(input && input.value!==value){
+        input.value=value;
+    }
+
+    vaultInput=value;
+
+    updateVaultDisplay();
+
+    if(vaultInput.length>=5){
+        vaultMessage.textContent=
+            "✓ Código completo. Aperte ✓ para confirmar.";
+    }else{
+        vaultMessage.textContent=
+            "Código digitado: "+
+            vaultInput.length+
+            "/5";
+    }
+}
+
+function vaultNativeKeyDown(event){
+
+    if(!vaultRunning)return;
+
+    if(event.key==="Enter"){
+        event.preventDefault();
+        vaultSubmit();
+    }
+
+    if(event.key==="Escape"){
+        event.preventDefault();
+        event.target.blur();
+    }
+}
+
+function syncVaultNativeInput(){
+
+    const input=document.getElementById("vaultNativeInput");
+
+    if(input){
+        input.value=vaultInput;
+    }
+}
+
+function vaultKey(number){  
+  
+    if(!vaultRunning)return;  
+  
+    if(vaultInput.length>=5){  
+  
+        vaultMessage.textContent=  
+            "⚠️ Você já digitou 5 números. Aperte ✓.";  
+  
+        return;  
+    }  
+  
+    vaultInput+=String(number);  
+  
+    updateVaultDisplay();  
+  
+    vaultMessage.textContent=  
+        "Código digitado: "+  
+        vaultInput.length+  
+        "/5";  
+}  
+  
+function vaultDelete(){  
+  
+    if(!vaultRunning)return;  
+  
+    vaultInput=  
+        vaultInput.slice(  
+            0,  
+            -1  
+        );  
+  
+    updateVaultDisplay();  
+  
+    vaultMessage.textContent=  
+        "Número apagado.";  
+}  
+  
+function vaultSubmit(){  
+  
+    if(!vaultRunning)return;  
+  
+    if(vaultInput.length!==5){  
+  
+        vaultMessage.textContent=  
+            "⚠️ Digite exatamente 5 números.";  
+  
+        return;  
+    }  
+  
+    const secret=  
+        vaultSecret.join("");  
+  
+    if(vaultInput===secret){  
+  
+        unlockVault();  
+  
+        return;  
+    }  
+  
+    /*  
+       Errou.  
+    */  
+  
+    vaultTryCount--;  
+  
+    vault.classList.remove(  
+        "vaultShake"  
+    );  
+  
+    /*  
+       Força a animação novamente.  
+    */  
+    void vault.offsetWidth;  
+  
+    vault.classList.add(  
+        "vaultShake"  
+    );  
+  
+    vaultInput="";  
+  
+    updateVaultDisplay();  
+  
+    renderVaultTips();  
+  
+    if(vaultTryCount<=0){  
+  
+        vaultGameOver();  
+  
+        return;  
+    }  
+  
+    vaultMessage.textContent=  
+        "❌ CÓDIGO INCORRETO! "+  
+        "Você ainda tem "+  
+        vaultTryCount+  
+        " tentativa"+  
+        (vaultTryCount===1?"":"s")+".";  
+  
+    gameMessage.textContent=  
+        "❌ Senha incorreta. Uma nova dica foi liberada.";  
+  
+    addXP(1);  
+}  
+  
+function unlockVault(){  
+  
+    vaultRunning=false;  
+    gameRunning=false;  
+    vaultUsed=true;  
+  
+    vaultInput=  
+        vaultSecret.join("");  
+  
+    vaultCode.textContent=  
+        vaultInput  
+        .split("")  
+        .join(" ");  
+  
+    vaultCode.classList.add("success");  
+  
+    vault.classList.remove("locked");  
+  
+    vault.classList.add("opened");  
+  
+    vaultWin.style.display="block";  
+  
+    /*  
+       Usa exatamente o sistema atual  
+       de moedas do WKZ.  
+    */  
+    addCoins(  
+        VAULT_REWARD,  
+        true  
+    );  
+  
+    addXP(50);  
+  
+    gameScore.textContent=  
+        "🔓 ABERTO!";  
+  
+    gameTime.textContent=  
+        "✓";  
+  
+    gameCoins.textContent=  
+        "🪙 +1.100";  
+  
+    gameMessage.textContent=  
+        "👑 INCRÍVEL! Você abriu o Cofre Lendário.";  
+  
+    vaultMessage.textContent=  
+        "🔓 CÓDIGO CORRETO! O cofre foi desbloqueado.";  
+  
+    startGameButton.textContent=  
+        "🔄 NOVO COFRE";  
+}  
+  
+function vaultGameOver(){  
+  
+    vaultRunning=false;  
+    gameRunning=false;  
+  
+    /*  
+       Só revela a senha depois de  
+       acabar todas as tentativas.  
+    */  
+  
+    vaultCode.textContent=  
+        vaultSecret.join(" ");  
+  
+    vaultCode.classList.remove("success");  
+  
+    vault.classList.remove("locked");  
+  
+    vaultMessage.textContent=  
+        "🔒 COFRE BLOQUEADO! A senha era: "+  
+        vaultSecret.join("");  
+  
+    gameMessage.textContent=  
+        "💀 Você perdeu todas as tentativas. 0 moedas.";  
+  
+    gameScore.textContent=  
+        "🔒 BLOQUEADO";  
+  
+    gameCoins.textContent=  
+        "🪙 +0";  
+  
+    startGameButton.textContent=  
+        "🔄 TENTAR NOVAMENTE";  
+}  
+  
+/* ==================================================  
+   ABRIR SITE  
+================================================== */  
+  
+function openSite(nome,url){  
+  
+    warning.style.display="none";  
+  
+    home.style.display="none";  
+  
+    browser.style.display="block";  
+  
+    address.textContent=nome;  
+  
+    loading.style.display="block";  
+  
+    frame.src=url;  
+  
+    clearTimeout(loadingTimer);  
+  
+    loadingTimer=setTimeout(function(){  
+  
+        if(browser.style.display==="block"){  
+            warning.style.display="block";  
+        }  
+  
+    },12000);  
+  
+    addXP(10);  
+  
+    addCoins(3,true);  
+}  
+  
+frame.addEventListener("load",function(){  
+  
+    clearTimeout(loadingTimer);  
+  
+    loading.style.display="none";  
+});  
+  
+function goHome(){  
+  
+    clearTimeout(loadingTimer);  
+  
+    warning.style.display="none";  
+  
+    browser.style.display="none";  
+  
+    home.style.display="block";  
+  
+    frame.src="";  
+  
+    loading.style.display="none";  
+  
+    googleMode=false;  
+  
+    window.scrollTo(0,0);  
+}  
+  
+function goBack(){  
+  
+    try{  
+        frame.contentWindow.history.back();  
+    }catch(e){  
+        console.log(  
+            "O site não permite navegação interna."  
+        );  
+    }  
+}  
+  
+function goForward(){  
+  
+    try{  
+        frame.contentWindow.history.forward();  
+    }catch(e){  
+        console.log(  
+            "O site não permite navegação interna."  
+        );  
+    }  
+}  
+  
+function reloadFrame(){  
+  
+    warning.style.display="none";  
+  
+    loading.style.display="block";  
+  
+    clearTimeout(loadingTimer);  
+  
+    try{  
+        frame.contentWindow.location.reload();  
+    }catch(e){  
+        frame.src=frame.src;  
+    }  
+  
+    loadingTimer=setTimeout(function(){  
+        warning.style.display="block";  
+    },12000);  
+}  
+  
+function fullScreen(){  
+  
+    if(browser.requestFullscreen){  
+        browser.requestFullscreen();  
+    }  
+}  
+  
+function closeWarning(){  
+    warning.style.display="none";  
+}  
+  
+/* ==================================================  
+   SITES  
+================================================== */  
+  
+const sites=[  
+    {  
+        nome:"BlogBott Login",  
+        icon:"🤖",  
+        url:"https://login-live.blogbott.com/"  
+    },  
+    {  
+        nome:"Astrocade",  
+        icon:"🚀",  
+        url:"https://www.astrocade.com"  
+    },  
+    {  
+        nome:"Emu Games",  
+        icon:"🎮",  
+        url:"https://www.emugames.com/"  
+    },  
+    {  
+        nome:"Kirka",  
+        icon:"🔫",  
+        url:"https://kirka.io/"  
+    },  
+    {  
+        nome:"CalcSolver",  
+        icon:"🧮",  
+        url:"https://www.calc-solver.com/"  
+    },  
+    {  
+        nome:"Bloxd.io",  
+        icon:"🧱",  
+        url:"https://bloxd.io/"  
+    },  
+    {  
+        nome:"Uncensored AI",  
+        icon:"🧠",  
+        url:"https://uncensored.ai/chat"  
+    },  
+    {  
+        nome:"Kahoot!",  
+        icon:"🏆",  
+        url:"https://kahoot.si/"  
+    }  
+];  
+  
+/* ==================================================  
+   PESQUISA  
+================================================== */  
+  
+function searchSites(){  
+  
+    const input=  
+        document.getElementById("search");  
+  
+    const text=  
+        input.value  
+        .toLowerCase()  
+        .trim();  
+  
+    const originalText=  
+        input.value.trim();  
+  
+    const results=  
+        document.getElementById("results");  
+  
+    results.innerHTML="";  
+  
+    if(!text)return;  
+  
+    addXP(5);  
+  
+    const found=  
+        sites.filter(function(site){  
+  
+            return site.nome  
+                .toLowerCase()  
+                .includes(text);  
+  
+        });  
+  
+    if(found.length>0){  
+  
+        const title=  
+            document.createElement("div");  
+  
+        title.className="searchTitle";  
+  
+        title.textContent=  
+            "🔎 Resultado no WKZ";  
+  
+        results.appendChild(title);  
+  
+        const box=  
+            document.createElement("div");  
+  
+        box.className="sites";  
+  
+        found.forEach(function(site){  
+  
+            const card=  
+                document.createElement("div");  
+  
+            card.className="siteCard";  
+  
+            card.innerHTML=`  
+  
+                <div class="siteIcon">  
+                    ${site.icon}  
+                </div>  
+  
+                <h3>${site.nome}</h3>  
+  
+                <p>Abrir dentro do WKZ</p>  
+  
+            `;  
+  
+            card.onclick=function(){  
+  
+                openSite(  
+                    site.nome,  
+                    site.url  
+                );  
+            };  
+  
+            box.appendChild(card);  
+        });  
+  
+        results.appendChild(box);  
+    }  
+  
+    const googleBox=  
+        document.createElement("div");  
+  
+    googleBox.style.marginTop="18px";  
+  
+    googleBox.innerHTML=`  
+  
+        <div class="searchTitle">  
+            🌐 Pesquisa na internet  
+        </div>  
+  
+        <div class="googleResult">  
+  
+            <div class="googleResultIcon">  
+                🔍  
+            </div>  
+  
+            <h3>  
+                Pesquisar "${escapeHTML(originalText)}" no Google  
+            </h3>  
+  
+            <p>  
+                Encontrar resultados, sites,  
+                notícias, imagens e muito mais.  
+            </p>  
+  
+        </div>  
+    `;  
+  
+    googleBox  
+        .querySelector(".googleResult")  
+        .onclick=function(){  
+  
+            searchGoogle(originalText);  
+  
+        };  
+  
+    results.appendChild(googleBox);  
+}  
+  
+function searchGoogle(text){  
+  
+    if(!text)return;  
+  
+    const url=  
+        "https://www.google.com/search?q="+  
+        encodeURIComponent(text);  
+  
+    googleMode=true;  
+  
+    addXP(5);  
+  
+    openSite(  
+        "Google: "+text,  
+        url  
+    );  
+}  
+  
+/* ==================================================  
+   TECLA +  
+================================================== */  
+  
+function toggleGoogle(){  
+  
+    if(googleMode){  
+  
+        goHome();  
+  
+        return;  
+    }  
+  
+    googleMode=true;  
+  
+    addXP(5);  
+  
+    openSite(  
+        "Google",  
+        "https://www.google.com/?hl=pt_BR"  
+    );  
+}  
+  
+document.addEventListener(  
+    "keydown",  
+    function(event){  
+  
+        const isPlus=  
+            event.key==="+"||  
+            event.code==="NumpadAdd"||  
+            (  
+                event.code==="Equal"&&  
+                event.shiftKey  
+            );  
+  
+        if(isPlus){  
+  
+            event.preventDefault();  
+  
+            event.stopPropagation();  
+  
+            toggleGoogle();  
+        }  
+  
+    },  
+    true  
+);  
+  
+/* ==================================================  
+   ESCAPE HTML  
+================================================== */  
+  
+function escapeHTML(text){  
+  
+    return text  
+        .replace(/&/g,"&amp;")  
+        .replace(/</g,"&lt;")  
+        .replace(/>/g,"&gt;")  
+        .replace(/"/g,"&quot;")  
+        .replace(/'/g,"&#039;");  
+}  
+  
+/* ==================================================  
+   ENTER PESQUISA  
+================================================== */  
+  
+document  
+.getElementById("search")  
+.addEventListener(  
+    "keydown",  
+    function(event){  
+  
+        if(event.key==="Enter"){  
+  
+            const text=  
+                this.value.trim();  
+  
+            if(text){  
+                searchGoogle(text);  
+            }  
+        }  
+    }  
+);  
+  
+/* ==================================================  
+   ESC  
+================================================== */  
+  
+document.addEventListener(  
+    "keydown",  
+    function(event){  
+  
+        /*  
+           Quando estiver digitando no cofre,  
+           Escape não fecha o jogo.  
+        */  
+        if(  
+            event.key==="Escape" &&  
+            !vaultRunning  
+        ){  
+            goHome();  
+        }  
+  
+    }  
+);  
+  
+/* ==================================================  
+   FECHAR MODAIS FORA  
+================================================== */  
+  
+shopOverlay.addEventListener(  
+    "click",  
+    function(event){  
+  
+        if(event.target===shopOverlay){  
+            closeShop();  
+        }  
+  
+    }  
+);  
+  
+arcadeModal.addEventListener(  
+    "click",  
+    function(event){  
+  
+        if(event.target===arcadeModal){  
+            closeArcade();  
+        }  
+  
+    }  
+);  
+  
+/* ==================================================  
+   TECLADO FÍSICO PARA O COFRE  
+================================================== */  
+  
+document.addEventListener(  
+    "keydown",  
+    function(event){  
+  
+        if(  
+            !vaultRunning ||  
+            selectedGame!=="vault"  
+        ){  
+            return;  
+        }  
+  
+        if(/^[0-9]$/.test(event.key)){  
+  
+            event.preventDefault();  
+  
+            vaultKey(event.key);  
+  
+        }  
+  
+        if(event.key==="Backspace"){  
+  
+            event.preventDefault();  
+  
+            vaultDelete();  
+  
+        }  
+  
+        if(event.key==="Enter"){  
+  
+            event.preventDefault();  
+  
+            vaultSubmit();  
+  
+        }  
+  
+    }  
+);  
+  
+/* ==================================================  
+   INÍCIO  
+================================================== */  
+  
+updateXP();  
+  
+updateCoins();  
+  
+applyPet();  
+  
+startRainbowTimer();  
+  
+</script>  </body>  
+</html>  
